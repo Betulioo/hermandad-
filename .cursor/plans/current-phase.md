@@ -1,14 +1,15 @@
 # Fase actual
 
 ## En curso
-Páginas públicas: avisos, horarios, productos, rutinas
+Login
 
 ## Completado
 - Setup técnico y estructura base (PR1)
 - Layout + Home conectada a backend (PR2)
+- Páginas públicas: /avisos y /horarios (PR3)
 
 ## Siguiente
-Login
+Admin mínimo de avisos
 
 ## Objetivo inmediato
-Crear páginas públicas individuales para avisos y horarios de oración
+Crear página de login y flujo básico de autenticación con JWT

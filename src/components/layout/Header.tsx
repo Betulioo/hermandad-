@@ -13,14 +13,14 @@ export default function Header() {
           Santa María la Antigua
         </Link>
         <nav className="flex items-center gap-4 text-sm text-stone-600">
-          <Link href="/" className="hover:text-stone-900">
-            Inicio
+          <Link href="/avisos" className="hover:text-stone-900">
+            Avisos
+          </Link>
+          <Link href="/horarios" className="hover:text-stone-900">
+            Horarios
           </Link>
           {user ? (
-            <button
-              onClick={logout}
-              className="hover:text-stone-900"
-            >
+            <button onClick={logout} className="hover:text-stone-900">
               Cerrar sesión
             </button>
           ) : (

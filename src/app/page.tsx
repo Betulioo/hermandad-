@@ -1,6 +1,9 @@
+import Link from 'next/link';
 import { getParishInfo } from '@/services/parish-info.service';
 import { getPrayerSchedules } from '@/services/prayer-schedules.service';
 import { getAnnouncements } from '@/services/announcements.service';
+import AnnouncementCard from '@/components/announcements/AnnouncementCard';
+import ScheduleItem from '@/components/schedules/ScheduleItem';
 import type { ParishInfo } from '@/types/parish-info';
 import type { PrayerSchedule } from '@/types/prayer-schedule';
 import type { Announcement } from '@/types/announcement';
@@ -108,28 +111,18 @@ function ParishInfoSection({ info }: { info: ParishInfo | null }) {
 function SchedulesSection({ schedules }: { schedules: PrayerSchedule[] }) {
   return (
     <section className="space-y-3">
-      <h2 className="text-lg font-semibold text-stone-800">Horarios</h2>
+      <div className="flex items-baseline justify-between">
+        <h2 className="text-lg font-semibold text-stone-800">Horarios</h2>
+        <Link href="/horarios" className="text-sm text-stone-500 hover:text-stone-800">
+          Ver todos →
+        </Link>
+      </div>
       {schedules.length === 0 ? (
         <p className="text-sm text-stone-400">No hay horarios disponibles.</p>
       ) : (
         <ul className="divide-y divide-stone-100">
           {schedules.map((s) => (
-            <li key={s.id} className="flex items-start justify-between gap-4 py-3">
-              <div className="space-y-0.5">
-                <p className="font-medium text-stone-800">{s.title}</p>
-                <p className="text-sm text-stone-500">
-                  {s.days} · {s.time}
-                </p>
-                {s.location && (
-                  <p className="text-sm text-stone-400">{s.location}</p>
-                )}
-              </div>
-              {s.type && (
-                <span className="mt-0.5 shrink-0 rounded-full bg-stone-100 px-2 py-0.5 text-xs text-stone-600">
-                  {s.type}
-                </span>
-              )}
-            </li>
+            <ScheduleItem key={s.id} schedule={s} />
           ))}
         </ul>
       )}
@@ -140,33 +133,18 @@ function SchedulesSection({ schedules }: { schedules: PrayerSchedule[] }) {
 function AnnouncementsSection({ announcements }: { announcements: Announcement[] }) {
   return (
     <section className="space-y-3">
-      <h2 className="text-lg font-semibold text-stone-800">Últimos avisos</h2>
+      <div className="flex items-baseline justify-between">
+        <h2 className="text-lg font-semibold text-stone-800">Últimos avisos</h2>
+        <Link href="/avisos" className="text-sm text-stone-500 hover:text-stone-800">
+          Ver todos →
+        </Link>
+      </div>
       {announcements.length === 0 ? (
         <p className="text-sm text-stone-400">No hay avisos recientes.</p>
       ) : (
         <ul className="space-y-3">
           {announcements.map((a) => (
-            <li
-              key={a.id}
-              className="rounded-lg border border-stone-200 bg-white px-4 py-3"
-            >
-              <div className="flex items-start gap-2">
-                <p className="flex-1 font-medium text-stone-800">{a.title}</p>
-                {a.isImportant && (
-                  <span className="shrink-0 rounded-full bg-amber-100 px-2 py-0.5 text-xs font-medium text-amber-700">
-                    Importante
-                  </span>
-                )}
-              </div>
-              <p className="mt-1 text-sm text-stone-500 line-clamp-2">{a.content}</p>
-              <p className="mt-2 text-xs text-stone-400">
-                {new Date(a.createdAt).toLocaleDateString('es-ES', {
-                  day: 'numeric',
-                  month: 'long',
-                  year: 'numeric',
-                })}
-              </p>
-            </li>
+            <AnnouncementCard key={a.id} announcement={a} truncate />
           ))}
         </ul>
       )}
