@@ -1,1 +1,87 @@
 @import "tailwindcss";
+
+@theme {
+  /* --- Brand colors --- */
+  --color-brand-navy: #1f2a44;
+  --color-brand-blue: #4f6f96;
+  --color-brand-gold: #b38a3a;
+  --color-brand-burgundy: #6e1f2a;
+
+  /* --- Surface / background --- */
+  --color-surface-base: #faf8f4;
+  --color-surface-card: #ffffff;
+  --color-surface-alt: #f3efe8;
+  --color-surface-dark: #1f2a44;
+
+  /* --- Text --- */
+  --color-text-primary: #1e1c19;
+  --color-text-secondary: #4e4a44;
+  --color-text-inverse: #ffffff;
+  --color-text-muted: #a79f93;
+
+  /* --- Border --- */
+  --color-border-soft: #e6e0d6;
+  --color-border-strong: #cfc6b8;
+
+  /* --- State --- */
+  --color-state-success: #2e7d32;
+  --color-state-warning: #b26a00;
+  --color-state-error: #b3261e;
+  --color-state-info: #1e5aa8;
+
+  /* --- Typography scale --- */
+  --text-display-xl: 3.5rem;
+  --text-display-xl--line-height: 4rem;
+  --text-display-lg: 3rem;
+  --text-display-lg--line-height: 3.5rem;
+  --text-h1: 2.5rem;
+  --text-h1--line-height: 3rem;
+  --text-h2: 2rem;
+  --text-h2--line-height: 2.5rem;
+  --text-h3: 1.5rem;
+  --text-h3--line-height: 2rem;
+  --text-h4: 1.25rem;
+  --text-h4--line-height: 1.75rem;
+  --text-body-lg: 1.125rem;
+  --text-body-lg--line-height: 1.75rem;
+  --text-body-md: 1rem;
+  --text-body-md--line-height: 1.5rem;
+  --text-body-sm: 0.875rem;
+  --text-body-sm--line-height: 1.25rem;
+  --text-caption: 0.75rem;
+  --text-caption--line-height: 1rem;
+
+  /* --- Border radius --- */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+
+  /* --- Shadows --- */
+  --shadow-card: 0 1px 3px 0 rgb(0 0 0 / 0.06), 0 1px 2px -1px rgb(0 0 0 / 0.04);
+  --shadow-raised: 0 4px 6px -1px rgb(0 0 0 / 0.08), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+  --shadow-overlay: 0 20px 25px -5px rgb(0 0 0 / 0.12), 0 8px 10px -6px rgb(0 0 0 / 0.08);
+}
+
+/* Font families via next/font CSS variables (resolved at runtime) */
+@theme inline {
+  --font-heading: var(--font-cormorant);
+  --font-body: var(--font-inter);
+}
+
+/* --- Max-width container utilities --- */
+@utility content-sm {
+  max-width: 40rem;
+}
+@utility content-md {
+  max-width: 48rem;
+}
+@utility content-lg {
+  max-width: 64rem;
+}
+@utility content-xl {
+  max-width: 80rem;
+}
+@utility content-2xl {
+  max-width: 90rem;
+}
