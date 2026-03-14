@@ -1,6 +1,10 @@
 import type { Metadata } from 'next';
 import { getAnnouncements } from '@/services/announcements.service';
-import AnnouncementCard from '@/components/announcements/AnnouncementCard';
+import { AnnouncementCard } from '@/components/ui/cards/AnnouncementCard';
+import { PageShell } from '@/components/layout/page-shell/PageShell';
+import { Container } from '@/components/layout/container/Container';
+import { Section } from '@/components/layout/section/Section';
+import { PageHeading } from '@/components/ui/typography/PageHeading';
 import type { Announcement } from '@/types/announcement';
 
 export const metadata: Metadata = {
@@ -12,17 +16,39 @@ export default async function AvisosPage() {
   const announcements = await getAnnouncements(1, 50).catch((): Announcement[] => []);
 
   return (
-    <section className="space-y-4">
-      <h1 className="text-2xl font-semibold text-stone-800">Avisos</h1>
-      {announcements.length === 0 ? (
-        <p className="text-sm text-stone-400">No hay avisos publicados actualmente.</p>
-      ) : (
-        <ul className="space-y-3">
-          {announcements.map((a) => (
-            <AnnouncementCard key={a.id} announcement={a} />
-          ))}
-        </ul>
-      )}
-    </section>
+    <PageShell>
+      <Section>
+        <Container size="lg">
+          <div className="space-y-8">
+            <PageHeading
+              title="Avisos"
+              subtitle="Comunicados y noticias de la comunidad"
+            />
+            {announcements.length === 0 ? (
+              <p className="text-body-sm text-text-muted">
+                No hay avisos publicados actualmente.
+              </p>
+            ) : (
+              <ul className="space-y-4">
+                {announcements.map((a) => (
+                  <li key={a.id}>
+                    <AnnouncementCard
+                      title={a.title}
+                      content={a.content}
+                      date={new Date(a.createdAt).toLocaleDateString('es-ES', {
+                        day: 'numeric',
+                        month: 'long',
+                        year: 'numeric',
+                      })}
+                      isImportant={a.isImportant}
+                    />
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        </Container>
+      </Section>
+    </PageShell>
   );
 }
