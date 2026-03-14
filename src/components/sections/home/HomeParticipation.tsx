@@ -29,7 +29,7 @@ export function HomeParticipation() {
             subtitle="Hay un lugar para ti en nuestra comunidad"
             align="center"
           />
-          <ul className="grid grid-cols-1 gap-5 md:grid-cols-3">
+          <ul className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {homeParticipationItems.map((item) => (
               <li key={item.id}>
                 <InfoCard

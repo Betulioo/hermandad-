@@ -19,7 +19,7 @@ export function HomeFeaturedProducts() {
               </Button>
             }
           />
-          <ul className="grid grid-cols-2 gap-4 md:grid-cols-4">
+          <ul className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
             {homeFeaturedProducts.map((product) => (
               <li key={product.id}>
                 <ProductCard

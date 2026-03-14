@@ -5,7 +5,14 @@ import { PageShell } from '@/components/layout/page-shell/PageShell';
 import { Container } from '@/components/layout/container/Container';
 import { Section } from '@/components/layout/section/Section';
 import { PageHeading } from '@/components/ui/typography/PageHeading';
-import type { Announcement } from '@/types/announcement';
+import { mockAvisos } from '@/content/avisos';
+import {
+  announcementToView,
+  mockAvisoToView,
+  type AnnouncementView,
+} from '@/lib/mappers/announcement.mapper';
+
+export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: 'Avisos — Santa María la Antigua',
@@ -13,7 +20,17 @@ export const metadata: Metadata = {
 };
 
 export default async function AvisosPage() {
-  const announcements = await getAnnouncements(1, 50).catch((): Announcement[] => []);
+  let items: AnnouncementView[];
+
+  try {
+    const apiAnnouncements = await getAnnouncements(1, 50);
+    items =
+      apiAnnouncements.length > 0
+        ? apiAnnouncements.map(announcementToView)
+        : mockAvisos.map(mockAvisoToView);
+  } catch {
+    items = mockAvisos.map(mockAvisoToView);
+  }
 
   return (
     <PageShell>
@@ -24,23 +41,21 @@ export default async function AvisosPage() {
               title="Avisos"
               subtitle="Comunicados y noticias de la comunidad"
             />
-            {announcements.length === 0 ? (
+            {items.length === 0 ? (
               <p className="text-body-sm text-text-muted">
                 No hay avisos publicados actualmente.
               </p>
             ) : (
               <ul className="space-y-4">
-                {announcements.map((a) => (
-                  <li key={a.id}>
+                {items.map((item) => (
+                  <li key={item.id}>
                     <AnnouncementCard
-                      title={a.title}
-                      content={a.content}
-                      date={new Date(a.createdAt).toLocaleDateString('es-ES', {
-                        day: 'numeric',
-                        month: 'long',
-                        year: 'numeric',
-                      })}
-                      isImportant={a.isImportant}
+                      title={item.title}
+                      content={item.excerpt}
+                      date={item.date}
+                      isImportant={item.isImportant}
+                      truncate
+                      href={`/avisos/${item.id}`}
                     />
                   </li>
                 ))}

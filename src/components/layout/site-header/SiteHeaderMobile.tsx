@@ -1,18 +1,59 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { mainNav } from '@/lib/config/navigation';
 import { siteConfig } from '@/lib/config/site';
 
+const FOCUSABLE =
+  'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
+
 export function SiteHeaderMobile() {
   const [isOpen, setIsOpen] = useState(false);
+  const drawerRef = useRef<HTMLDivElement>(null);
 
+  // Lock body scroll
   useEffect(() => {
     document.body.style.overflow = isOpen ? 'hidden' : '';
     return () => {
       document.body.style.overflow = '';
     };
+  }, [isOpen]);
+
+  // Focus trap
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const drawer = drawerRef.current;
+    if (!drawer) return;
+
+    const elements = Array.from(drawer.querySelectorAll<HTMLElement>(FOCUSABLE));
+    const first = elements[0];
+    const last = elements[elements.length - 1];
+
+    first?.focus();
+
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.key === 'Escape') {
+        setIsOpen(false);
+        return;
+      }
+      if (e.key !== 'Tab') return;
+      if (e.shiftKey) {
+        if (document.activeElement === first) {
+          e.preventDefault();
+          last?.focus();
+        }
+      } else {
+        if (document.activeElement === last) {
+          e.preventDefault();
+          first?.focus();
+        }
+      }
+    }
+
+    document.addEventListener('keydown', onKeyDown);
+    return () => document.removeEventListener('keydown', onKeyDown);
   }, [isOpen]);
 
   return (
@@ -22,6 +63,7 @@ export function SiteHeaderMobile() {
         className="flex h-9 w-9 items-center justify-center rounded-sm text-text-secondary hover:bg-surface-alt hover:text-brand-navy transition-colors"
         aria-label="Abrir menú"
         aria-expanded={isOpen}
+        aria-controls="mobile-nav-drawer"
       >
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-5 w-5" aria-hidden>
           <line x1="3" y1="6" x2="21" y2="6" />
@@ -38,6 +80,8 @@ export function SiteHeaderMobile() {
             aria-hidden
           />
           <div
+            ref={drawerRef}
+            id="mobile-nav-drawer"
             role="dialog"
             aria-modal
             aria-label="Menú de navegación"

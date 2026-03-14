@@ -18,7 +18,7 @@ export function HomeUpcomingEvents() {
               </Button>
             }
           />
-          <ul className="grid grid-cols-1 gap-5 md:grid-cols-3">
+          <ul className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {homeUpcomingEvents.map((event) => (
               <li key={event.id}>
                 <EventCard

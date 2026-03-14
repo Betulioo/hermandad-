@@ -8,6 +8,8 @@ import { HomeParticipation } from '@/components/sections/home/HomeParticipation'
 import { HomeLocationContact } from '@/components/sections/home/HomeLocationContact';
 import { homeHero } from '@/content/home';
 
+export const dynamic = 'force-dynamic';
+
 export default function HomePage() {
   return (
     <>
