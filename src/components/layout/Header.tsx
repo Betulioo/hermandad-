@@ -20,9 +20,14 @@ export default function Header() {
             Horarios
           </Link>
           {user?.role === 'ADMIN' && (
-            <Link href="/admin/avisos" className="hover:text-stone-900">
-              Admin
-            </Link>
+            <>
+              <Link href="/admin/avisos" className="hover:text-stone-900">
+                Admin avisos
+              </Link>
+              <Link href="/admin/parish-info" className="hover:text-stone-900">
+                Admin parroquia
+              </Link>
+            </>
           )}
           {user ? (
             <button onClick={logout} className="hover:text-stone-900">

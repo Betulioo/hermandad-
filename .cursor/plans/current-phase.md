@@ -1,17 +1,19 @@
 # Fase actual
 
-## MVP completado
+## Estado
+MVP inicial completado
 
-## Completado
-- Setup técnico y estructura base (PR1)
-- Layout + Home conectada a backend (PR2)
-- Páginas públicas: /avisos y /horarios (PR3)
-- Login con JWT (PR4)
-- Admin mínimo de avisos (PR5)
+## Validado
+- backend funcional
+- frontend público básico
+- login admin
+- admin mínimo de avisos
 
-## Posibles mejoras futuras
-- Edición completa de avisos en admin
-- Paginación real en /avisos y /horarios
-- Página de detalle de aviso
-- Gestión de horarios desde admin
-- Gestión de información parroquial desde admin
+## Siguiente decisión
+Elegir una de estas líneas:
+1. ampliar frontend público (rutinas y productos)
+2. ampliar panel admin
+3. reforzar backend/frontend con e2e y deuda técnica
+
+## Último entregable cerrado
+Admin mínimo de avisos
