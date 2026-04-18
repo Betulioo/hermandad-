@@ -20,18 +20,28 @@ export async function getAnnouncementsAdmin(page = 1, limit = 50): Promise<Annou
   return data;
 }
 
-export interface CreateAnnouncementInput {
+export interface AnnouncementInput {
   title: string;
   content: string;
   isImportant?: boolean;
 }
 
-export async function createAnnouncement(input: CreateAnnouncementInput): Promise<Announcement> {
+export async function createAnnouncement(input: AnnouncementInput): Promise<Announcement> {
   const { data } = await api.post<Announcement>('/announcements', input);
+  return data;
+}
+
+export async function updateAnnouncement(id: string, input: AnnouncementInput): Promise<Announcement> {
+  const { data } = await api.patch<Announcement>(`/announcements/${id}`, input);
   return data;
 }
 
 export async function deactivateAnnouncement(id: string): Promise<Announcement> {
   const { data } = await api.patch<Announcement>(`/announcements/${id}/deactivate`);
+  return data;
+}
+
+export async function reactivateAnnouncement(id: string): Promise<Announcement> {
+  const { data } = await api.patch<Announcement>(`/announcements/${id}/reactivate`);
   return data;
 }

@@ -6,9 +6,13 @@ import { useAuth } from '@/context/AuthContext';
 import {
   getAnnouncementsAdmin,
   createAnnouncement,
+  updateAnnouncement,
   deactivateAnnouncement,
+  reactivateAnnouncement,
 } from '@/services/announcements.service';
 import type { Announcement } from '@/types/announcement';
+
+const EMPTY_FORM = { title: '', content: '', isImportant: false };
 
 export default function AdminAvisosPage() {
   const { user, loading } = useAuth();
@@ -18,13 +22,13 @@ export default function AdminAvisosPage() {
   const [listLoading, setListLoading] = useState(false);
   const [listError, setListError] = useState<string | null>(null);
 
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
-  const [isImportant, setIsImportant] = useState(false);
-  const [creating, setCreating] = useState(false);
-  const [createError, setCreateError] = useState<string | null>(null);
+  const [form, setForm] = useState(EMPTY_FORM);
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [saving, setSaving] = useState(false);
+  const [saveError, setSaveError] = useState<string | null>(null);
 
   const [deactivatingId, setDeactivatingId] = useState<string | null>(null);
+  const [reactivatingId, setReactivatingId] = useState<string | null>(null);
   const [actionError, setActionError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -53,7 +57,6 @@ export default function AdminAvisosPage() {
   if (loading) return null;
   if (!user) return null;
 
-  console.log(user)
   if (user.role !== 'ADMIN') {
     return (
       <div className="space-y-2">
@@ -65,20 +68,34 @@ export default function AdminAvisosPage() {
     );
   }
 
-  async function handleCreate(e: React.FormEvent) {
+  function startEdit(a: Announcement) {
+    setEditingId(a.id);
+    setForm({ title: a.title, content: a.content, isImportant: a.isImportant });
+    setSaveError(null);
+  }
+
+  function cancelEdit() {
+    setEditingId(null);
+    setForm(EMPTY_FORM);
+    setSaveError(null);
+  }
+
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    setCreateError(null);
-    setCreating(true);
+    setSaveError(null);
+    setSaving(true);
     try {
-      await createAnnouncement({ title, content, isImportant });
-      setTitle('');
-      setContent('');
-      setIsImportant(false);
+      if (editingId) {
+        await updateAnnouncement(editingId, form);
+      } else {
+        await createAnnouncement(form);
+      }
+      cancelEdit();
       await loadAnnouncements();
     } catch (err) {
-      setCreateError(extractErrorMessage(err));
+      setSaveError(extractErrorMessage(err));
     } finally {
-      setCreating(false);
+      setSaving(false);
     }
   }
 
@@ -95,14 +112,44 @@ export default function AdminAvisosPage() {
     }
   }
 
+  async function handleReactivate(id: string) {
+    setActionError(null);
+    setReactivatingId(id);
+    try {
+      await reactivateAnnouncement(id);
+      await loadAnnouncements();
+    } catch (err) {
+      setActionError(extractErrorMessage(err));
+    } finally {
+      setReactivatingId(null);
+    }
+  }
+
+  const isEditing = editingId !== null;
+  const inputClass =
+    'w-full rounded-md border border-stone-300 px-3 py-2 text-sm text-stone-800 outline-none focus:border-stone-600 focus:ring-1 focus:ring-stone-600';
+
   return (
     <div className="space-y-8">
       <h1 className="text-2xl font-semibold text-stone-800">Admin — Avisos</h1>
 
-      {/* Formulario de creación */}
+      {/* Formulario crear / editar */}
       <section className="space-y-3 rounded-lg border border-stone-200 bg-white p-4">
-        <h2 className="text-base font-semibold text-stone-700">Nuevo aviso</h2>
-        <form onSubmit={handleCreate} className="space-y-3">
+        <div className="flex items-center justify-between">
+          <h2 className="text-base font-semibold text-stone-700">
+            {isEditing ? 'Editar aviso' : 'Nuevo aviso'}
+          </h2>
+          {isEditing && (
+            <button
+              type="button"
+              onClick={cancelEdit}
+              className="text-sm text-stone-400 hover:text-stone-600 transition-colors"
+            >
+              Cancelar
+            </button>
+          )}
+        </div>
+        <form onSubmit={handleSubmit} className="space-y-3">
           <div className="space-y-1">
             <label htmlFor="title" className="block text-sm font-medium text-stone-700">
               Título
@@ -112,9 +159,9 @@ export default function AdminAvisosPage() {
               type="text"
               required
               maxLength={160}
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              className="w-full rounded-md border border-stone-300 px-3 py-2 text-sm text-stone-800 outline-none focus:border-stone-600 focus:ring-1 focus:ring-stone-600"
+              value={form.title}
+              onChange={(e) => setForm((prev) => ({ ...prev, title: e.target.value }))}
+              className={inputClass}
             />
           </div>
 
@@ -126,29 +173,31 @@ export default function AdminAvisosPage() {
               id="content"
               required
               rows={3}
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-              className="w-full rounded-md border border-stone-300 px-3 py-2 text-sm text-stone-800 outline-none focus:border-stone-600 focus:ring-1 focus:ring-stone-600"
+              value={form.content}
+              onChange={(e) => setForm((prev) => ({ ...prev, content: e.target.value }))}
+              className={inputClass}
             />
           </div>
 
           <label className="flex cursor-pointer items-center gap-2 text-sm text-stone-700">
             <input
               type="checkbox"
-              checked={isImportant}
-              onChange={(e) => setIsImportant(e.target.checked)}
+              checked={form.isImportant}
+              onChange={(e) => setForm((prev) => ({ ...prev, isImportant: e.target.checked }))}
             />
             Marcar como importante
           </label>
 
-          {createError && <p className="text-sm text-red-600">{createError}</p>}
+          {saveError && <p className="text-sm text-red-600">{saveError}</p>}
 
           <button
             type="submit"
-            disabled={creating}
+            disabled={saving}
             className="rounded-md bg-stone-800 px-4 py-2 text-sm font-medium text-white hover:bg-stone-700 disabled:opacity-50"
           >
-            {creating ? 'Publicando…' : 'Publicar aviso'}
+            {saving
+              ? isEditing ? 'Guardando…' : 'Publicando…'
+              : isEditing ? 'Guardar cambios' : 'Publicar aviso'}
           </button>
         </form>
       </section>
@@ -168,7 +217,13 @@ export default function AdminAvisosPage() {
         ) : (
           <ul className="divide-y divide-stone-100 rounded-lg border border-stone-200 bg-white">
             {announcements.map((a) => (
-              <li key={a.id} className="flex items-start justify-between gap-4 px-4 py-3">
+              <li
+                key={a.id}
+                className={[
+                  'flex items-start justify-between gap-4 px-4 py-3',
+                  editingId === a.id ? 'bg-stone-50' : '',
+                ].join(' ')}
+              >
                 <div className="min-w-0 space-y-1">
                   <div className="flex flex-wrap items-center gap-2">
                     <span className="font-medium text-stone-800">{a.title}</span>
@@ -197,15 +252,32 @@ export default function AdminAvisosPage() {
                   </p>
                 </div>
 
-                {a.isActive && (
+                <div className="flex shrink-0 items-center gap-3">
                   <button
-                    onClick={() => handleDeactivate(a.id)}
-                    disabled={deactivatingId === a.id}
-                    className="shrink-0 text-sm text-stone-400 hover:text-red-600 disabled:opacity-50"
+                    onClick={() => startEdit(a)}
+                    disabled={editingId === a.id}
+                    className="text-sm text-stone-400 hover:text-stone-700 disabled:opacity-40 transition-colors"
                   >
-                    {deactivatingId === a.id ? '…' : 'Desactivar'}
+                    Editar
                   </button>
-                )}
+                  {a.isActive ? (
+                    <button
+                      onClick={() => handleDeactivate(a.id)}
+                      disabled={deactivatingId === a.id}
+                      className="text-sm text-stone-400 hover:text-red-600 disabled:opacity-50 transition-colors"
+                    >
+                      {deactivatingId === a.id ? '…' : 'Desactivar'}
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => handleReactivate(a.id)}
+                      disabled={reactivatingId === a.id}
+                      className="text-sm text-stone-400 hover:text-green-700 disabled:opacity-50 transition-colors"
+                    >
+                      {reactivatingId === a.id ? '…' : 'Reactivar'}
+                    </button>
+                  )}
+                </div>
               </li>
             ))}
           </ul>

@@ -1,19 +1,22 @@
 # Fase actual
 
 ## Estado
-MVP inicial completado
+**Cierre y estabilización del MVP full stack.** El bloque **Tienda MVP** (público + carrito + pedido + admin mínimo de productos y pedidos) está **cerrado en lo esencial**. El admin cuenta con **middleware** en `/admin` (cookies de sesión + rol ADMIN).
 
-## Validado
-- backend funcional
-- frontend público básico
-- login admin
-- admin mínimo de avisos
+## Validado (sincronizado con el backend)
+- Home y secciones públicas con datos reales donde aplica (avisos con fallback).
+- Login y sesión integrados; protección server-side de `/admin`.
+- Admin operativo: avisos, parish info, horarios, **productos**, **pedidos (solo lectura)**.
+- Tienda: `/tienda`, `/tienda/[slug]`, `/tienda/carrito`, `/tienda/pedido`; carrito **Zustand** persistido; pedido sin pagos ni emails.
+- **No** hay historial de pedidos por usuario ni integración de pagos.
 
-## Siguiente decisión
-Elegir una de estas líneas:
-1. ampliar frontend público (rutinas y productos)
-2. ampliar panel admin
-3. reforzar backend/frontend con e2e y deuda técnica
+## Siguiente línea de trabajo (no excluyente; requiere decisión)
+1. Consolidación: documentación, pequeña deuda técnica, tests selectivos.
+2. Coordinación con backend sobre **persistencia en producción** (`synchronize` / migraciones en la API).
+3. Definir la siguiente fase de producto **sin** asumir por defecto PrayerRoutines ni ecommerce avanzado.
 
-## Último entregable cerrado
-Admin mínimo de avisos
+## Fuera del foco inmediato
+Ver `frontend-mvp-roadmap.md` (pagos, emails, historial de pedidos, admin complejo de pedidos, UI de PrayerRoutines).
+
+## Último gran bloque cerrado
+**Tienda MVP** end-to-end (catálogo, detalle, carrito, pedido, admin de productos y consulta de pedidos) + middleware de admin.

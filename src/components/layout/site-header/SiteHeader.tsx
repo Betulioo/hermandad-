@@ -2,6 +2,8 @@ import Link from 'next/link';
 import { Container } from '../container/Container';
 import { SiteNav } from './SiteNav';
 import { SiteHeaderMobile } from './SiteHeaderMobile';
+import { SiteHeaderActions } from './SiteHeaderActions';
+import { SiteHeaderCartLink } from './SiteHeaderCartLink';
 import { siteConfig } from '@/lib/config/site';
 
 export function SiteHeader() {
@@ -16,11 +18,16 @@ export function SiteHeader() {
             {siteConfig.shortName}
           </Link>
 
-          <div className="hidden md:flex items-center gap-6">
-            <SiteNav />
+          <div className="flex items-center gap-4 md:gap-6">
+            <div className="hidden md:flex items-center gap-6">
+              <SiteNav />
+            </div>
+            <SiteHeaderCartLink />
+            <div className="hidden md:block">
+              <SiteHeaderActions />
+            </div>
+            <SiteHeaderMobile />
           </div>
-
-          <SiteHeaderMobile />
         </div>
       </Container>
     </header>

@@ -2,8 +2,10 @@
 
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { mainNav } from '@/lib/config/navigation';
 import { siteConfig } from '@/lib/config/site';
+import { useAuth } from '@/context/AuthContext';
 
 const FOCUSABLE =
   'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
@@ -11,6 +13,14 @@ const FOCUSABLE =
 export function SiteHeaderMobile() {
   const [isOpen, setIsOpen] = useState(false);
   const drawerRef = useRef<HTMLDivElement>(null);
+  const { user, logout } = useAuth();
+  const router = useRouter();
+
+  function handleLogout() {
+    logout();
+    setIsOpen(false);
+    router.push('/');
+  }
 
   // Lock body scroll
   useEffect(() => {
@@ -117,6 +127,36 @@ export function SiteHeaderMobile() {
                   </li>
                 ))}
               </ul>
+
+              <div className="mt-4 border-t border-border-soft pt-4 space-y-1">
+                {!user ? (
+                  <Link
+                    href="/login"
+                    className="block rounded-sm px-3 py-3 text-body-md text-text-secondary hover:bg-surface-alt transition-colors"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    Acceder
+                  </Link>
+                ) : (
+                  <>
+                    {user.role === 'ADMIN' && (
+                      <Link
+                        href="/admin/avisos"
+                        className="block rounded-sm px-3 py-3 text-body-md text-brand-blue hover:bg-surface-alt transition-colors"
+                        onClick={() => setIsOpen(false)}
+                      >
+                        Panel admin
+                      </Link>
+                    )}
+                    <button
+                      onClick={handleLogout}
+                      className="block w-full rounded-sm px-3 py-3 text-left text-body-md text-text-muted hover:bg-surface-alt transition-colors"
+                    >
+                      Salir
+                    </button>
+                  </>
+                )}
+              </div>
             </nav>
           </div>
         </>

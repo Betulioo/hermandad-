@@ -1,58 +1,51 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { notFound } from 'next/navigation';
 import { PageShell } from '@/components/layout/page-shell/PageShell';
 import { Section } from '@/components/layout/section/Section';
 import { Container } from '@/components/layout/container/Container';
 import { PageHeading } from '@/components/ui/typography/PageHeading';
 import { Badge } from '@/components/ui/data-display/Badge';
 import { Button } from '@/components/ui/buttons/Button';
-import { mockProductos, productCategoryLabels } from '@/content/tienda';
+import { ProductAddToCart } from '@/components/tienda/ProductAddToCart';
+import { getProductBySlug } from '@/services/products.service';
+import { formatPrice } from '@/lib/utils/formatPrice';
+import { productCategoryLabels, type ProductCategory } from '@/content/tienda';
 
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ id: string }>;
+  params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
-  const { id } = await params;
-  const product = mockProductos.find((p) => p.id === id);
-  const title = product
-    ? `${product.name} — Tienda — Santa María la Antigua`
-    : 'Producto — Tienda — Santa María la Antigua';
-  return { title };
+  const { slug } = await params;
+  try {
+    const product = await getProductBySlug(slug);
+    return {
+      title: `${product.name} — Tienda — Santa María la Antigua`,
+    };
+  } catch {
+    return { title: 'Producto — Tienda — Santa María la Antigua' };
+  }
 }
 
 export default async function ProductoDetailPage({
   params,
 }: {
-  params: Promise<{ id: string }>;
+  params: Promise<{ slug: string }>;
 }) {
-  const { id } = await params;
-  const product = mockProductos.find((p) => p.id === id);
+  const { slug } = await params;
 
-  if (!product) {
-    return (
-      <PageShell>
-        <Section>
-          <Container size="md">
-            <div className="space-y-6">
-              <Link
-                href="/tienda"
-                className="inline-flex items-center gap-1 text-body-sm text-text-muted transition-colors hover:text-text-primary"
-              >
-                ← Volver a la tienda
-              </Link>
-              <p className="text-body-md text-text-secondary">
-                Este producto no está disponible.
-              </p>
-              <Button href="/tienda" variant="secondary" size="sm">
-                Ver todos los productos
-              </Button>
-            </div>
-          </Container>
-        </Section>
-      </PageShell>
-    );
+  let product;
+  try {
+    product = await getProductBySlug(slug);
+  } catch {
+    notFound();
   }
+
+  const categoryLabel =
+    product.category && product.category in productCategoryLabels
+      ? productCategoryLabels[product.category as ProductCategory]
+      : product.category;
 
   return (
     <PageShell>
@@ -67,17 +60,16 @@ export default async function ProductoDetailPage({
               ← Volver a la tienda
             </Link>
 
-            {/* Cabecera del producto — ancho completo */}
+            {/* Cabecera del producto */}
             <div className="space-y-3">
-              <div className="flex flex-wrap items-center gap-2">
-                <Badge variant="default">
-                  {productCategoryLabels[product.category]}
-                </Badge>
-                {product.featured && <Badge variant="important">Destacado</Badge>}
-              </div>
+              {categoryLabel && (
+                <div className="flex flex-wrap items-center gap-2">
+                  <Badge variant="default">{categoryLabel}</Badge>
+                </div>
+              )}
               <PageHeading title={product.name} />
               <p className="font-heading text-h3 font-semibold text-brand-navy">
-                {product.price}
+                {formatPrice(product.priceCents)}
               </p>
             </div>
 
@@ -91,10 +83,18 @@ export default async function ProductoDetailPage({
               {/* Descripción y disponibilidad */}
               <div className="space-y-6">
                 <p className="text-body-md leading-relaxed text-text-secondary">
-                  {product.fullDescription}
+                  {product.description}
                 </p>
 
-                {/* Bloque de disponibilidad — no funcional */}
+                <ProductAddToCart
+                  productId={product.id}
+                  slug={product.slug}
+                  name={product.name}
+                  priceCents={product.priceCents}
+                  stock={product.stock}
+                />
+
+                {/* Bloque de disponibilidad */}
                 <div className="space-y-3 rounded-md border border-border-soft bg-surface-alt p-4">
                   <p className="text-body-sm font-medium text-text-primary">
                     Disponible en secretaría parroquial

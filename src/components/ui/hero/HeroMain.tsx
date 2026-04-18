@@ -1,7 +1,6 @@
-import { Button } from '@/components/ui/buttons/Button';
-import { Container } from '@/components/layout/container/Container';
-import { siteConfig } from '@/lib/config/site';
-
+import { Button } from "@/components/ui/buttons/Button";
+import { Container } from "@/components/layout/container/Container";
+import Image from "next/image";
 interface HeroMainProps {
   title: string;
   subtitle: string;
@@ -9,7 +8,12 @@ interface HeroMainProps {
   ctaSecondary: { label: string; href: string };
 }
 
-export function HeroMain({ title, subtitle, ctaPrimary, ctaSecondary }: HeroMainProps) {
+export function HeroMain({
+  title,
+  subtitle,
+  ctaPrimary,
+  ctaSecondary,
+}: HeroMainProps) {
   return (
     <section className="bg-surface-alt">
       <Container>
@@ -19,7 +23,9 @@ export function HeroMain({ title, subtitle, ctaPrimary, ctaSecondary }: HeroMain
             <h1 className="font-heading text-h1 font-semibold leading-tight text-text-primary md:text-display-lg">
               {title}
             </h1>
-            <p className="text-body-lg text-text-secondary md:max-w-md">{subtitle}</p>
+            <p className="text-body-lg text-text-secondary md:max-w-md">
+              {subtitle}
+            </p>
             <div className="flex flex-col gap-3 sm:flex-row">
               <Button href={ctaPrimary.href} variant="primary" size="md">
                 {ctaPrimary.label}
@@ -31,15 +37,14 @@ export function HeroMain({ title, subtitle, ctaPrimary, ctaSecondary }: HeroMain
           </div>
 
           {/* Decorative image placeholder — replace with <Image> when available */}
+
           <div className="order-first md:order-last">
-            <div className="relative overflow-hidden rounded-lg bg-gradient-to-br from-brand-navy to-brand-blue aspect-[4/3] flex items-center justify-center">
-              <span
-                className="select-none text-center font-heading text-display-xl font-light italic text-text-inverse/15 px-8 leading-none"
-                aria-hidden
-              >
-                {siteConfig.shortName}
-              </span>
-            </div>
+            <Image
+              src="https://res.cloudinary.com/dz80dokn1/image/upload/v1776002894/IMG-20260404-WA0099_pjuonf.jpg"
+              width={700}
+              height={700}
+              alt="parroquia"
+            />
           </div>
         </div>
       </Container>
