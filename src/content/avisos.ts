@@ -19,7 +19,7 @@ export interface AvisoMock {
 
 export const mockAvisos: AvisoMock[] = [
   {
-    id: '1',
+    id: '00000000-0000-0000-0000-000000000001',
     title: 'Campaña de recogida de alimentos',
     excerpt:
       'Hasta el 30 de junio, la Parroquia recoge alimentos no perecederos para las familias más vulnerables del barrio. Depositadlos en las cajas habilitadas en la entrada.',
@@ -37,7 +37,7 @@ Para más información, podéis dirigiros a la secretaría parroquial o al grupo
     category: 'comunidad',
   },
   {
-    id: '2',
+    id: '00000000-0000-0000-0000-000000000002',
     title: 'Cambio de horario de verano',
     excerpt:
       'A partir del 15 de junio, la misa vespertina del domingo se adelanta a las 20:00 h. El resto de horarios se mantienen sin cambios hasta septiembre.',
@@ -58,7 +58,7 @@ Quedáis todos convocados a participar con regularidad en la Eucaristía, fuente
     category: 'parroquia',
   },
   {
-    id: '3',
+    id: '00000000-0000-0000-0000-000000000003',
     title: 'Nuevo grupo de voluntariado juvenil',
     excerpt:
       'Se constituye un nuevo grupo de voluntariado para jóvenes de 18 a 30 años. Primera reunión el próximo jueves a las 19:30 h en la sala parroquial.',
@@ -76,7 +76,7 @@ Si tienes entre 18 y 30 años y quieres comprometerte con tu comunidad, este es 
     category: 'comunidad',
   },
   {
-    id: '4',
+    id: '00000000-0000-0000-0000-000000000004',
     title: 'Vía Crucis de la Hermandad — Semana Santa 2025',
     excerpt:
       'El próximo viernes 21 de marzo, la Hermandad celebra su tradicional Vía Crucis por las calles del casco histórico. Salida desde la Parroquia a las 20:00 h.',
@@ -96,7 +96,7 @@ Para cualquier consulta, podéis dirigiros al secretario de la Hermandad.`,
     category: 'hermandad',
   },
   {
-    id: '5',
+    id: '00000000-0000-0000-0000-000000000005',
     title: 'Catequesis de Primera Comunión — inscripciones abiertas',
     excerpt:
       'Se abren las inscripciones para la catequesis de Primera Comunión del próximo curso. Niños nacidos en 2016 y 2017. Plazo hasta el 30 de septiembre.',
@@ -119,7 +119,7 @@ Para más información, consultar con la coordinadora de catequesis, Dña. Isabe
     category: 'parroquia',
   },
   {
-    id: '6',
+    id: '00000000-0000-0000-0000-000000000006',
     title: 'Cabildo General Ordinario de la Hermandad',
     excerpt:
       'El próximo jueves 10 de abril, a las 19:30 h, se celebra el Cabildo General Ordinario de la Hermandad. Se presentarán las cuentas del ejercicio y la programación de cultos.',
