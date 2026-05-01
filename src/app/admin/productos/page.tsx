@@ -11,6 +11,10 @@ import {
   deactivateProduct,
 } from '@/services/products-admin.service';
 import type { Product } from '@/types/product';
+import {
+  productCategoryLabels,
+  type ProductCategory,
+} from '@/content/tienda';
 
 type ProductForm = {
   name: string;
@@ -302,17 +306,23 @@ export default function AdminProductosPage() {
               <label htmlFor="category" className="block text-sm font-medium text-stone-700">
                 Categoría <span className="font-normal text-stone-500">(opcional)</span>
               </label>
-              <input
+              <select
                 id="category"
-                type="text"
-                maxLength={80}
-                placeholder="p. ej. devocionario"
                 value={form.category}
                 onChange={(e) =>
                   setForm((prev) => ({ ...prev, category: e.target.value }))
                 }
                 className={inputClass}
-              />
+              >
+                <option value="">— Sin categoría —</option>
+                {(Object.entries(productCategoryLabels) as [ProductCategory, string][]).map(
+                  ([value, label]) => (
+                    <option key={value} value={value}>
+                      {label}
+                    </option>
+                  ),
+                )}
+              </select>
             </div>
           </div>
 

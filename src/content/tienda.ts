@@ -1,13 +1,15 @@
-export type ProductCategory = 'devocionario' | 'publicaciones' | 'indumentaria';
+export type ProductCategory = 'devocionario' | 'rosarios' | 'publicaciones' | 'indumentaria';
 
 export const productCategoryLabels: Record<ProductCategory, string> = {
   devocionario: 'Artículos devocionales',
+  rosarios: 'Rosarios',
   publicaciones: 'Libros y publicaciones',
   indumentaria: 'Indumentaria',
 };
 
 export const productCategoryDescriptions: Record<ProductCategory, string> = {
-  devocionario: 'Medallas, escapularios, rosarios y artículos de devoción de la Hermandad.',
+  devocionario: 'Medallas, escapularios y artículos de devoción de la Hermandad.',
+  rosarios: 'Rosarios y cuentas de la Hermandad de Santa María la Antigua.',
   publicaciones: 'Historia, espiritualidad y patrimonio de la Parroquia y la Hermandad.',
   indumentaria: 'Camisetas, bolsas y complementos con el emblema de la Hermandad.',
 };
