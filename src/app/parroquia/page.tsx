@@ -53,7 +53,6 @@ export default async function ParroquiaPage() {
         title={parroquiaIntro.title}
         text={parroquiaIntro.text}
         cta={parroquiaIntro.cta}
-        imagePlaceholderLabel={siteConfig.shortName}
         colorScheme="navy-blue"
       />
 
