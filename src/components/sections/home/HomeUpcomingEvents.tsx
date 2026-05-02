@@ -4,8 +4,28 @@ import { SectionHeading } from '@/components/ui/typography/SectionHeading';
 import { Button } from '@/components/ui/buttons/Button';
 import { EventCard } from '@/components/ui/cards/EventCard';
 import { homeUpcomingEvents } from '@/content/home';
+import { getEvents } from '@/services/events.service';
+import { eventToCardItem, type EventCardItem } from '@/utils/event-format';
 
-export function HomeUpcomingEvents() {
+const LIMIT = 3;
+
+async function fetchUpcomingEvents(): Promise<EventCardItem[]> {
+  try {
+    const apiEvents = await getEvents(1, LIMIT);
+    return apiEvents.map(eventToCardItem);
+  } catch {
+    return homeUpcomingEvents.map((event) => ({
+      ...event,
+      href: `/eventos/${event.id}`,
+    }));
+  }
+}
+
+export async function HomeUpcomingEvents() {
+  const items = await fetchUpcomingEvents();
+
+  if (items.length === 0) return null;
+
   return (
     <Section>
       <Container>
@@ -13,13 +33,13 @@ export function HomeUpcomingEvents() {
           <SectionHeading
             title="Próximos eventos"
             action={
-              <Button href="/avisos" variant="ghost" size="sm">
+              <Button href="/eventos" variant="ghost" size="sm">
                 Ver todos →
               </Button>
             }
           />
           <ul className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {homeUpcomingEvents.map((event) => (
+            {items.map((event) => (
               <li key={event.id}>
                 <EventCard
                   title={event.title}
@@ -27,6 +47,8 @@ export function HomeUpcomingEvents() {
                   time={event.time}
                   location={event.location}
                   description={event.description}
+                  imageUrl={event.imageUrl}
+                  href={event.href}
                 />
               </li>
             ))}
