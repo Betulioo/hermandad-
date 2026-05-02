@@ -12,6 +12,7 @@ const adminNav = [
   { label: 'Pedidos', href: '/admin/pedidos' },
   { label: 'Info parroquia', href: '/admin/parish-info' },
   { label: 'Horarios', href: '/admin/horarios' },
+  { label: 'Eventos', href: '/admin/eventos' },
 ];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -36,8 +37,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       {/* Barra admin */}
       <div className="border-b border-border-soft bg-surface-card">
         <Container>
-          <div className="flex h-12 items-center justify-between gap-4">
-            <nav className="flex items-center gap-1" aria-label="Navegación admin">
+          <div className="flex min-h-12 flex-wrap items-center justify-between gap-3 py-2">
+            <nav className="flex flex-wrap items-center gap-1" aria-label="Navegación admin">
               {adminNav.map((item) => {
                 const isActive =
                   item.href === '/admin/pedidos'

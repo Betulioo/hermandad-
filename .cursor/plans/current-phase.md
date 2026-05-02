@@ -6,8 +6,9 @@
 ## Validado (sincronizado con el backend)
 - Home y secciones públicas con datos reales donde aplica (avisos con fallback).
 - Login y sesión integrados; protección server-side de `/admin`.
-- Admin operativo: avisos, parish info, horarios, **productos**, **pedidos (solo lectura)**.
+- Admin operativo: avisos, parish info, horarios, **productos**, **pedidos (solo lectura)**, **eventos**.
 - Tienda: `/tienda`, `/tienda/[slug]`, `/tienda/carrito`, `/tienda/pedido`; carrito **Zustand** persistido; pedido sin pagos ni emails.
+- **Eventos**: listado público `/eventos`, detalle `/eventos/[id]` con `notFound()` real, admin completo; fallback estático solo ante error de API; utilidades compartidas en `src/utils/event-format.ts`.
 - **No** hay historial de pedidos por usuario ni integración de pagos.
 
 ## Siguiente línea de trabajo (no excluyente; requiere decisión)

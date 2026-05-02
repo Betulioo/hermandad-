@@ -1,6 +1,7 @@
 export const mainNav = [
   { label: 'Parroquia', href: '/parroquia' },
   { label: 'Hermandad', href: '/hermandad' },
+  { label: 'Eventos', href: '/eventos' },
   { label: 'Avisos', href: '/avisos' },
   { label: 'Tienda', href: '/tienda' },
 ];
@@ -11,6 +12,7 @@ export const footerNav = [
     links: [
       { label: 'Parroquia', href: '/parroquia' },
       { label: 'Hermandad', href: '/hermandad' },
+      { label: 'Eventos', href: '/eventos' },
       { label: 'Avisos', href: '/avisos' },
     ],
   },

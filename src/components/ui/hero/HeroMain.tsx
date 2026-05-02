@@ -35,17 +35,13 @@ export function HeroMain({
               </Button>
             </div>
           </div>
-
-          {/* Decorative image placeholder — replace with <Image> when available */}
-
-          <div className="order-first md:order-last">
-            <Image
-              src="https://res.cloudinary.com/dz80dokn1/image/upload/v1776002894/IMG-20260404-WA0099_pjuonf.jpg"
-              width={700}
-              height={700}
-              alt="parroquia"
-            />
-          </div>
+          <Image
+            src="https://res.cloudinary.com/dz80dokn1/image/upload/v1776533356/Parroquia_de_Santa_Mar%C3%ADa_la_Antigua_dfso2b.jpg"
+            width={700}
+            height={700}
+            alt="parroquia"
+            className="rounded-md"
+          />
         </div>
       </Container>
     </section>
