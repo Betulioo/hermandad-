@@ -51,9 +51,9 @@ Do not change backend code from a frontend task unless a real contract mismatch 
 
 ## Current MVP State
 
-Implemented in the frontend: public pages, shop catalog/detail/cart/order, login and JWT session, and admin for announcements, parish info, schedules, products, and orders with manual status changes.
+Implemented in the frontend: public pages, shop catalog/detail/cart/order with email capture, login and JWT session, and admin for announcements, parish info, schedules, products, and orders with manual status changes.
 
-Out of immediate scope unless explicitly decided: payments, automatic emails beyond the approved Resend confirmation slice, user order history, advanced order/stock management, PrayerRoutines UI, and large new public sections not tied to consolidation.
+Out of immediate scope unless explicitly decided: payments, automatic emails beyond the approved Resend order confirmation slice, user order history, advanced order/stock management, PrayerRoutines UI, and large new public sections not tied to consolidation.
 
 ## Event Module Debt
 

@@ -33,7 +33,7 @@ Públicas:
 - `/horarios`
 - `/avisos`, `/avisos/[id]`
 - `/tienda`, `/tienda/[slug]`
-- `/tienda/carrito`, `/tienda/pedido`
+- `/tienda/carrito`, `/tienda/pedido` (incluye email de contacto para confirmacion)
 - `/login`
 
 Admin (requieren sesión con rol ADMIN):

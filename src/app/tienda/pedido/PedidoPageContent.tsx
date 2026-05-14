@@ -30,6 +30,7 @@ export function PedidoPageContent() {
   const totalCents = selectCartTotalCents(items);
 
   const [customerName, setCustomerName] = useState('');
+  const [customerEmail, setCustomerEmail] = useState('');
   const [customerContact, setCustomerContact] = useState('');
   const [notes, setNotes] = useState('');
 
@@ -51,6 +52,7 @@ export function PedidoPageContent() {
     try {
       const order = await createOrder({
         customerName: customerName.trim(),
+        customerEmail: customerEmail.trim(),
         customerContact: customerContact.trim(),
         notes: notes.trim() || undefined,
         items: items.map((line) => ({
@@ -82,8 +84,8 @@ export function PedidoPageContent() {
                 {successOrderId}
               </p>
               <p className="text-body-sm text-text-muted">
-                Nos pondremos en contacto contigo para confirmar disponibilidad y forma de pago
-                en secretaría.
+                Si el correo de confirmación está activo, recibirás este código también por email.
+                Nos pondremos en contacto contigo para confirmar disponibilidad y forma de pago.
               </p>
               <Button href="/tienda" variant="primary" size="md">
                 Volver a la tienda
@@ -188,16 +190,37 @@ export function PedidoPageContent() {
 
               <div className="space-y-2">
                 <label
+                  htmlFor="customerEmail"
+                  className="block text-body-sm font-medium text-text-primary"
+                >
+                  Email de contacto
+                </label>
+                <input
+                  id="customerEmail"
+                  name="customerEmail"
+                  type="email"
+                  autoComplete="email"
+                  required
+                  maxLength={320}
+                  value={customerEmail}
+                  onChange={(e) => setCustomerEmail(e.target.value)}
+                  disabled={loading}
+                  className="w-full rounded-sm border border-border-soft bg-surface-card px-3 py-2 text-body-md text-text-primary outline-none focus:border-brand-navy focus:ring-1 focus:ring-brand-navy disabled:opacity-50"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label
                   htmlFor="customerContact"
                   className="block text-body-sm font-medium text-text-primary"
                 >
-                  Teléfono o email de contacto
+                  Teléfono o contacto adicional
                 </label>
                 <input
                   id="customerContact"
                   name="customerContact"
                   type="text"
-                  autoComplete="tel email"
+                  autoComplete="tel"
                   required
                   maxLength={160}
                   value={customerContact}
