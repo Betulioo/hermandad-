@@ -17,7 +17,7 @@ Layout global, cabecera, pie, navegación. Home con **avisos reales** desde back
 - Avisos: listado y detalle con datos reales.
 - Horarios: listado público con datos reales.
 - Parroquia / Hermandad: datos reales desde ParishInfo.
-- **Tienda:** catálogo público real, detalle por slug (`/tienda/[slug]`). Carrito con **Zustand + persistencia en localStorage**. Sin pagos ni emails.
+- **Tienda:** catálogo público real, detalle por slug (`/tienda/[slug]`). Carrito con **Zustand + persistencia en localStorage**. Sin pagos; captura email de contacto para confirmación por Resend cuando esté configurado.
 
 ### [x] Fase 4 — Login
 Login integrado con backend. Sesión con JWT; cookies usadas también para **middleware** de `/admin`.
@@ -34,7 +34,7 @@ Layout admin común. Secciones operativas:
 
 ### [x] Fase 6 — Tienda MVP + hardening admin (cerrado en lo esencial)
 - Rutas: `/tienda`, `/tienda/[slug]`, `/tienda/carrito`, `/tienda/pedido`.
-- Pedido: `POST /orders` con líneas **`productId` + `quantity`**; vaciado de carrito tras éxito.
+- Pedido: `POST /orders` con `customerEmail` y líneas **`productId` + `quantity`**; vaciado de carrito tras éxito.
 - Middleware server-side de `/admin` operativo.
 
 ### [ ] Fase 7 — Consolidación (siguiente foco razonable)
