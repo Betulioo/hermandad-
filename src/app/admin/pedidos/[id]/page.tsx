@@ -5,8 +5,17 @@ import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import { formatPrice } from '@/lib/utils/formatPrice';
-import { getOrderAdmin } from '@/services/orders-admin.service';
-import type { Order } from '@/types/order';
+import {
+  getOrderAdmin,
+  updateOrderStatusAdmin,
+} from '@/services/orders-admin.service';
+import {
+  ORDER_STATUS_LABELS,
+  type Order,
+  type OrderStatus,
+} from '@/types/order';
+
+const ORDER_STATUS_OPTIONS: OrderStatus[] = ['pending', 'completed', 'cancelled'];
 
 export default function AdminPedidoDetallePage() {
   const params = useParams();
@@ -17,6 +26,8 @@ export default function AdminPedidoDetallePage() {
   const [order, setOrder] = useState<Order | null>(null);
   const [pageLoading, setPageLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [statusSaving, setStatusSaving] = useState(false);
+  const [statusError, setStatusError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!loading && !user) router.replace('/login');
@@ -42,6 +53,20 @@ export default function AdminPedidoDetallePage() {
       load();
     }
   }, [loading, user, id, load]);
+
+  async function handleStatusChange(nextStatus: OrderStatus) {
+    if (!order || nextStatus === order.status) return;
+    setStatusSaving(true);
+    setStatusError(null);
+    try {
+      const updated = await updateOrderStatusAdmin(order.id, nextStatus);
+      setOrder(updated);
+    } catch {
+      setStatusError('No se pudo actualizar el estado del pedido.');
+    } finally {
+      setStatusSaving(false);
+    }
+  }
 
   if (loading) return null;
   if (!user) return null;
@@ -79,8 +104,42 @@ export default function AdminPedidoDetallePage() {
           <div className="rounded-lg border border-stone-200 bg-white p-4 text-sm text-stone-700">
             <p className="font-mono text-xs text-stone-500">ID: {order.id}</p>
             <p className="mt-2">
-              <span className="font-medium text-stone-800">Estado:</span> {order.status}
+              <span className="font-medium text-stone-800">Estado actual:</span>{' '}
+              {ORDER_STATUS_LABELS[order.status]}
             </p>
+            <div className="mt-4 border-t border-stone-100 pt-4">
+              <label
+                htmlFor="order-status"
+                className="block text-sm font-medium text-stone-800"
+              >
+                Cambiar estado
+              </label>
+              <div className="mt-2 flex flex-wrap items-center gap-3">
+                <select
+                  id="order-status"
+                  value={order.status}
+                  disabled={statusSaving}
+                  onChange={(event) =>
+                    handleStatusChange(event.target.value as OrderStatus)
+                  }
+                  className="rounded-md border border-stone-300 bg-white px-3 py-2 text-sm text-stone-800 outline-none focus:border-stone-600 focus:ring-1 focus:ring-stone-600 disabled:opacity-60"
+                >
+                  {ORDER_STATUS_OPTIONS.map((status) => (
+                    <option key={status} value={status}>
+                      {ORDER_STATUS_LABELS[status]}
+                    </option>
+                  ))}
+                </select>
+                {statusSaving ? (
+                  <span className="text-sm text-stone-500">Guardando…</span>
+                ) : null}
+              </div>
+              {statusError ? (
+                <p role="alert" className="mt-2 text-sm text-red-600">
+                  {statusError}
+                </p>
+              ) : null}
+            </div>
             <p>
               <span className="font-medium text-stone-800">Fecha:</span>{' '}
               {new Date(order.createdAt).toLocaleString('es-ES', {

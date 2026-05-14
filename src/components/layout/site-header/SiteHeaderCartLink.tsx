@@ -1,19 +1,32 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useSyncExternalStore } from 'react';
 import Link from 'next/link';
 import { useCartStore, selectCartTotalItems } from '@/store/cart-store';
+
+function subscribeToCartHydration(onStoreChange: () => void) {
+  if (typeof window === 'undefined') return () => undefined;
+  return useCartStore.persist.onFinishHydration(onStoreChange);
+}
+
+function getCartHydrationSnapshot() {
+  return useCartStore.persist.hasHydrated();
+}
+
+function getServerCartHydrationSnapshot() {
+  return false;
+}
 
 export function SiteHeaderCartLink() {
   const items = useCartStore((s) => s.items);
   const count = selectCartTotalItems(items);
-  const [mounted, setMounted] = useState(false);
+  const hasHydrated = useSyncExternalStore(
+    subscribeToCartHydration,
+    getCartHydrationSnapshot,
+    getServerCartHydrationSnapshot,
+  );
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  const displayCount = mounted ? count : 0;
+  const displayCount = hasHydrated ? count : 0;
 
   return (
     <Link

@@ -1,3 +1,11 @@
+export type OrderStatus = 'pending' | 'completed' | 'cancelled';
+
+export const ORDER_STATUS_LABELS: Record<OrderStatus, string> = {
+  pending: 'Pendiente',
+  completed: 'Completado',
+  cancelled: 'Cancelado',
+};
+
 export interface OrderItemSnapshot {
   id: string;
   productId: string;
@@ -9,7 +17,7 @@ export interface OrderItemSnapshot {
 
 export interface Order {
   id: string;
-  status: string;
+  status: OrderStatus;
   customerName: string;
   customerContact: string;
   notes: string | null;

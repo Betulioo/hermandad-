@@ -9,7 +9,6 @@ import { InfoCard } from '@/components/ui/cards/InfoCard';
 import { MetaRow } from '@/components/ui/data-display/MetaRow';
 import { Button } from '@/components/ui/buttons/Button';
 import { CalendarIcon, ClockIcon, UsersIcon, MapPinIcon, PhoneIcon, MailIcon } from '@/components/ui/icons';
-import { siteConfig } from '@/lib/config/site';
 import {
   parroquiaHero,
   parroquiaIntro,

@@ -27,22 +27,33 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const token = getToken();
-    if (!token) {
-      setLoading(false);
-      return;
-    }
-    api
-      .get<AuthUser>('/auth/me')
-      .then(({ data }) => {
+    let isMounted = true;
+
+    async function loadCurrentUser() {
+      const token = getToken();
+      if (!token) {
+        if (isMounted) setLoading(false);
+        return;
+      }
+
+      try {
+        const { data } = await api.get<AuthUser>('/auth/me');
+        if (!isMounted) return;
         setUser(data);
         saveRole(data.role);
-      })
-      .catch(() => {
+      } catch {
         removeToken();
         removeRole();
-      })
-      .finally(() => setLoading(false));
+      } finally {
+        if (isMounted) setLoading(false);
+      }
+    }
+
+    void loadCurrentUser();
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   async function login(token: string): Promise<void> {

@@ -40,7 +40,7 @@ Admin (requieren sesión con rol ADMIN):
 
 - `/admin/avisos`
 - `/admin/productos`
-- `/admin/pedidos`, `/admin/pedidos/[id]` (solo lectura)
+- `/admin/pedidos`, `/admin/pedidos/[id]` (consulta y cambio de estado)
 - `/admin/parish-info`
 - `/admin/horarios`
 

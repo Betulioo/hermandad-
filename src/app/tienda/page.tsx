@@ -21,10 +21,15 @@ export const metadata: Metadata = {
     'Artículos devocionales, libros y ropa oficial de la Hermandad de Santa María la Antigua.',
 };
 
-const CATEGORIES: ProductCategory[] = ['devocionario', 'rosarios', 'publicaciones', 'indumentaria'];
+const CATEGORIES: ProductCategory[] = [
+  'devocionario',
+  'rosarios',
+  'publicaciones',
+  'indumentaria',
+];
 
 export default async function TiendaPage() {
-  let products = await getProducts().catch(() => []);
+  const products = await getProducts().catch(() => []);
 
   return (
     <PageShell>

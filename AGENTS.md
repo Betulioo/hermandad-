@@ -46,14 +46,14 @@ Do not change backend code from a frontend task unless a real contract mismatch 
 - `/admin` is protected by server-side middleware using session cookies and role `ADMIN`.
 - Client-side auth is still used for UX, redirects, and hiding UI, but backend/API auth is the security source of truth.
 - Admin pages are MVP-focused: manage only existing supported operations.
-- Orders are admin read-only in the MVP.
+- Orders can be viewed by admins and their status can be changed manually.
 - Destructive actions require explicit confirmation.
 
 ## Current MVP State
 
-Implemented in the frontend: public pages, shop catalog/detail/cart/order, login and JWT session, and admin for announcements, parish info, schedules, products, and read-only orders.
+Implemented in the frontend: public pages, shop catalog/detail/cart/order, login and JWT session, and admin for announcements, parish info, schedules, products, and orders with manual status changes.
 
-Out of immediate scope unless explicitly decided: payments, automatic emails, user order history, advanced order/stock management, PrayerRoutines UI, and large new public sections not tied to consolidation.
+Out of immediate scope unless explicitly decided: payments, automatic emails beyond the approved Resend confirmation slice, user order history, advanced order/stock management, PrayerRoutines UI, and large new public sections not tied to consolidation.
 
 ## Event Module Debt
 
