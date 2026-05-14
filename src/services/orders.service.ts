@@ -3,6 +3,7 @@ import type { Order } from '@/types/order';
 
 export interface CreateOrderInput {
   customerName: string;
+  customerEmail: string;
   customerContact: string;
   notes?: string;
   items: { productId: string; quantity: number }[];

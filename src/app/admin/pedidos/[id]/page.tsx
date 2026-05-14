@@ -153,6 +153,17 @@ export default function AdminPedidoDetallePage() {
             <p>
               <span className="font-medium text-stone-800">Cliente:</span> {order.customerName}
             </p>
+            {order.customerEmail ? (
+              <p>
+                <span className="font-medium text-stone-800">Email:</span>{' '}
+                <a
+                  href={`mailto:${order.customerEmail}`}
+                  className="text-stone-700 underline decoration-stone-300 underline-offset-2 hover:text-stone-950"
+                >
+                  {order.customerEmail}
+                </a>
+              </p>
+            ) : null}
             <p>
               <span className="font-medium text-stone-800">Contacto:</span> {order.customerContact}
             </p>

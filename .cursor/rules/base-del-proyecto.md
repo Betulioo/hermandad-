@@ -3,7 +3,7 @@ description: Base rules for Hermandad web MVP
 alwaysApply: true
 ---
 
-- Este proyecto corresponde a una web de parroquia/hermandad con **tienda MVP integrada** (catálogo, carrito, pedido vía API; sin pagos ni emails en el alcance actual).
+- Este proyecto corresponde a una web de parroquia/hermandad con **tienda MVP integrada** (catálogo, carrito, pedido vía API; sin pagos y con confirmacion de pedido por Resend cuando este configurado).
 - Mantener tono visual sobrio, cálido, tradicional y claro.
 - Priorizar mobile first.
 - No inventar páginas ni ampliar alcance sin que se pida explícitamente.
