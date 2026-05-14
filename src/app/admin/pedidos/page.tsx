@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import { formatPrice } from '@/lib/utils/formatPrice';
 import { getOrdersAdmin } from '@/services/orders-admin.service';
-import type { Order } from '@/types/order';
+import { ORDER_STATUS_LABELS, type Order } from '@/types/order';
 
 export default function AdminPedidosPage() {
   const { user, loading } = useAuth();
@@ -59,7 +59,7 @@ export default function AdminPedidosPage() {
 
       <section className="space-y-3">
         <p className="text-sm text-stone-600">
-          Pedidos recibidos desde la tienda. Solo lectura en este panel.
+          Pedidos recibidos desde la tienda. Puedes consultar el detalle y cambiar el estado.
         </p>
 
         {listLoading ? (
@@ -79,7 +79,7 @@ export default function AdminPedidosPage() {
                   <div className="flex flex-wrap items-center gap-2">
                     <span className="font-medium text-stone-800">{o.customerName}</span>
                     <span className="rounded-full bg-stone-100 px-2 py-0.5 text-xs text-stone-600">
-                      {o.status}
+                      {ORDER_STATUS_LABELS[o.status]}
                     </span>
                   </div>
                   <p className="text-sm text-stone-600">{o.customerContact}</p>

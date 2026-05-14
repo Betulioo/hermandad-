@@ -28,7 +28,7 @@ Layout admin común. Secciones operativas:
 - **Horarios**: activos e inactivos; crear, editar, desactivar, reactivar.
 - **Parish Info**: lectura y edición.
 - **Productos**: gestión acorde al backend (incl. desactivación).
-- **Pedidos**: listado y detalle **solo lectura** (`GET /orders/admin`, `GET /orders/admin/:id`).
+- **Pedidos**: listado, detalle y cambio manual de estado (`GET /orders/admin`, `GET /orders/admin/:id`, `PATCH /orders/admin/:id/status`).
 
 **Protección de `/admin`:** middleware Next.js que exige cookie de token y rol `ADMIN` (no solo guard en cliente).
 
@@ -46,9 +46,9 @@ Layout admin común. Secciones operativas:
 
 ## Fuera del foco inmediato del MVP
 - Pagos y pasarelas.
-- Emails automáticos (confirmación de pedido, etc.).
+- Emails automáticos fuera del slice aprobado de confirmación de pedido con Resend.
 - Historial de pedidos por usuario autenticado.
-- Panel admin avanzado de pedidos (estados, edición, stock fino).
+- Panel admin avanzado de pedidos (edición de líneas, stock fino).
 - UI de **PrayerRoutines** (backend existe; no es el siguiente foco por defecto).
 - Registro público amplio, recuperación de contraseña (salvo decisión contraria).
 
