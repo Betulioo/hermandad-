@@ -34,7 +34,7 @@ Layout admin común. Secciones operativas:
 
 ### [x] Fase 6 — Tienda MVP + hardening admin (cerrado en lo esencial)
 - Rutas: `/tienda`, `/tienda/[slug]`, `/tienda/carrito`, `/tienda/pedido`.
-- Pedido: `POST /orders` con `customerEmail` y líneas **`productId` + `quantity`**; vaciado de carrito tras éxito.
+- Pedido: `POST /orders` con `customerEmail` y líneas **`productId` + `quantity`**; vaciado de carrito tras éxito. El checkout debe validar stock actual antes de confirmar; crear el pedido no reserva ni descuenta stock.
 - Middleware server-side de `/admin` operativo.
 
 ### [ ] Fase 7 — Consolidación (siguiente foco razonable)
@@ -48,7 +48,7 @@ Layout admin común. Secciones operativas:
 - Pagos y pasarelas.
 - Emails automáticos fuera del slice aprobado de confirmación de pedido con Resend.
 - Historial de pedidos por usuario autenticado.
-- Panel admin avanzado de pedidos (edición de líneas, stock fino).
+- Panel admin avanzado de pedidos (edición de líneas, stock fino). El slice aprobado de stock se limita a validar antes de confirmar, mostrar “agotado”/bloqueos de líneas y respetar las reglas backend documentadas en `../../../docs/verticals/orders/current-state.md`.
 - UI de **PrayerRoutines** (backend existe; no es el siguiente foco por defecto).
 - Registro público amplio, recuperación de contraseña (salvo decisión contraria).
 
