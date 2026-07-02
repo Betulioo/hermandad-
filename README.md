@@ -32,6 +32,7 @@ Públicas:
 - `/parroquia`, `/hermandad`
 - `/horarios`
 - `/avisos`, `/avisos/[id]`
+- `/eventos`, `/eventos/[id]`
 - `/tienda`, `/tienda/[slug]`
 - `/tienda/carrito`, `/tienda/pedido` (incluye email de contacto para confirmacion)
 - `/login`
@@ -41,16 +42,17 @@ Admin (requieren sesión con rol ADMIN):
 - `/admin/avisos`
 - `/admin/productos`
 - `/admin/pedidos`, `/admin/pedidos/[id]` (consulta y cambio de estado)
+- `/admin/eventos`
 - `/admin/parish-info`
 - `/admin/horarios`
 
-El guardado de sesión y la redirección al `/login` cuando no hay usuario se resuelven en `src/app/admin/layout.tsx` y `src/context/AuthContext`.
+La proteccion de `/admin` se resuelve server-side con middleware usando cookies de sesion y rol `ADMIN`; `src/app/admin/layout.tsx` y `src/context/AuthContext` mantienen la experiencia de usuario en cliente.
 
 ## Estructura relevante
 
 - `src/app/` — rutas (App Router).
 - `src/components/` — componentes UI.
-- `src/services/` — clientes HTTP por dominio (`products`, `orders`, `orders-admin`, `announcements`, `parish-info`, `prayer-schedules`, `auth`).
+- `src/services/` — clientes HTTP por dominio (`products`, `orders`, `orders-admin`, `announcements`, `parish-info`, `prayer-schedules`, `events`, `auth`).
 - `src/lib/` — utilidades (`api.ts`, `env.ts`, `auth.ts`, mappers, config).
 - `src/context/` — `AuthContext`.
 - `src/types/` — tipos del dominio.

@@ -14,10 +14,7 @@ async function fetchUpcomingEvents(): Promise<EventCardItem[]> {
     const apiEvents = await getEvents(1, LIMIT);
     return apiEvents.map(eventToCardItem);
   } catch {
-    return homeUpcomingEvents.map((event) => ({
-      ...event,
-      href: `/eventos/${event.id}`,
-    }));
+    return homeUpcomingEvents;
   }
 }
 

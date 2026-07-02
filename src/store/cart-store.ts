@@ -21,6 +21,7 @@ interface CartStore {
     stock: number;
   }) => void;
   setQuantity: (productId: string, quantity: number) => void;
+  setKnownStock: (productId: string, stock: number) => void;
   removeItem: (productId: string) => void;
   clearCart: () => void;
 }
@@ -81,6 +82,14 @@ export const useCartStore = create<CartStore>()(
             ),
           };
         });
+      },
+
+      setKnownStock: (productId, stock) => {
+        set((state) => ({
+          items: state.items.map((i) =>
+            i.productId === productId ? { ...i, stock: Math.max(stock, 0) } : i,
+          ),
+        }));
       },
 
       removeItem: (productId) => {

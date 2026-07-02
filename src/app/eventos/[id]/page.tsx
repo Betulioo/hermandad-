@@ -9,7 +9,6 @@ import { PageHeading } from '@/components/ui/typography/PageHeading';
 import { MetaRow } from '@/components/ui/data-display/MetaRow';
 import { Button } from '@/components/ui/buttons/Button';
 import { CalendarIcon, ClockIcon, MapPinIcon } from '@/components/ui/icons';
-import { homeUpcomingEvents } from '@/content/home';
 import { getEventById } from '@/services/events.service';
 import type { EventItem } from '@/types/event';
 import { formatEventDate, getDisplayEventImageUrl } from '@/utils/event-format';
@@ -38,24 +37,12 @@ function eventToView(event: EventItem): EventView {
   };
 }
 
-function fallbackEventToView(event: (typeof homeUpcomingEvents)[number]): EventView {
-  return {
-    id: event.id,
-    title: event.title,
-    date: event.date,
-    time: event.time,
-    location: event.location,
-    description: event.description,
-  };
-}
-
 async function getEvento(id: string): Promise<EventView | null> {
   try {
     const event = await getEventById(id);
     return eventToView(event);
   } catch {
-    const fallback = homeUpcomingEvents.find((event) => event.id === id);
-    return fallback ? fallbackEventToView(fallback) : null;
+    return null;
   }
 }
 

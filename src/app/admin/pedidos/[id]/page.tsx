@@ -17,6 +17,23 @@ import {
 
 const ORDER_STATUS_OPTIONS: OrderStatus[] = ['pending', 'completed', 'cancelled'];
 
+function extractErrorMessage(err: unknown): string {
+  if (err && typeof err === 'object' && 'response' in err) {
+    const response = (err as { response?: { data?: { message?: unknown } } }).response;
+    const msg = response?.data?.message;
+    if (typeof msg === 'string') return msg;
+    if (Array.isArray(msg)) return msg.join(' ');
+  }
+  return 'No se pudo actualizar el estado del pedido.';
+}
+
+function getAllowedStatusOptions(currentStatus: OrderStatus): OrderStatus[] {
+  if (currentStatus === 'completed') {
+    return ORDER_STATUS_OPTIONS.filter((status) => status !== 'pending');
+  }
+  return ORDER_STATUS_OPTIONS;
+}
+
 export default function AdminPedidoDetallePage() {
   const params = useParams();
   const id = typeof params.id === 'string' ? params.id : '';
@@ -61,8 +78,8 @@ export default function AdminPedidoDetallePage() {
     try {
       const updated = await updateOrderStatusAdmin(order.id, nextStatus);
       setOrder(updated);
-    } catch {
-      setStatusError('No se pudo actualizar el estado del pedido.');
+    } catch (err) {
+      setStatusError(extractErrorMessage(err));
     } finally {
       setStatusSaving(false);
     }
@@ -124,7 +141,7 @@ export default function AdminPedidoDetallePage() {
                   }
                   className="rounded-md border border-stone-300 bg-white px-3 py-2 text-sm text-stone-800 outline-none focus:border-stone-600 focus:ring-1 focus:ring-stone-600 disabled:opacity-60"
                 >
-                  {ORDER_STATUS_OPTIONS.map((status) => (
+                  {getAllowedStatusOptions(order.status).map((status) => (
                     <option key={status} value={status}>
                       {ORDER_STATUS_LABELS[status]}
                     </option>
