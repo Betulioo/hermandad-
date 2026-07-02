@@ -167,6 +167,12 @@ export default function AdminProductosPage() {
   }
 
   async function handleDeactivate(id: string) {
+    const product = products.find((item) => item.id === id);
+    const confirmed = window.confirm(
+      `¿Desactivar ${product?.name ?? 'este producto'}? Dejará de verse en la tienda pública.`,
+    );
+    if (!confirmed) return;
+
     setActionError(null);
     setDeactivatingId(id);
     try {

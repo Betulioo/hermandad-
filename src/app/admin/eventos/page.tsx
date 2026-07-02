@@ -143,6 +143,12 @@ export default function AdminEventosPage() {
   }
 
   async function handleDeactivate(id: string) {
+    const event = events.find((item) => item.id === id);
+    const confirmed = window.confirm(
+      `¿Desactivar ${event?.title ?? 'este evento'}? Dejará de verse en la web pública.`,
+    );
+    if (!confirmed) return;
+
     setActionError(null);
     setDeactivatingId(id);
     try {
