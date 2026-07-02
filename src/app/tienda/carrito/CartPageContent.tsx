@@ -17,6 +17,9 @@ export function CartPageContent() {
   const setQuantity = useCartStore((s) => s.setQuantity);
   const removeItem = useCartStore((s) => s.removeItem);
   const totalCents = selectCartTotalCents(items);
+  const hasUnavailableLines = items.some(
+    (line) => line.stock <= 0 || line.quantity > line.stock,
+  );
 
   if (items.length === 0) {
     return (
@@ -61,6 +64,15 @@ export function CartPageContent() {
                       <p className="text-body-sm text-text-muted">
                         {formatPrice(line.priceCents)} / unidad
                       </p>
+                      {line.stock <= 0 ? (
+                        <p className="text-body-sm font-medium text-red-700">
+                          Producto agotado. Quitalo para continuar.
+                        </p>
+                      ) : line.quantity > line.stock ? (
+                        <p className="text-body-sm font-medium text-red-700">
+                          Stock disponible: {line.stock}. Reducí la cantidad para continuar.
+                        </p>
+                      ) : null}
                     </div>
 
                     <div className="flex flex-wrap items-center gap-3 sm:justify-end">
@@ -114,9 +126,15 @@ export function CartPageContent() {
             </div>
 
             <div className="flex flex-wrap gap-3">
-              <Button href="/tienda/pedido" variant="primary" size="md">
-                Continuar con el pedido
-              </Button>
+              {hasUnavailableLines ? (
+                <Button type="button" variant="primary" size="md" disabled>
+                  Ajustá el carrito para continuar
+                </Button>
+              ) : (
+                <Button href="/tienda/pedido" variant="primary" size="md">
+                  Continuar con el pedido
+                </Button>
+              )}
             </div>
 
             <p className="text-body-sm text-text-muted">

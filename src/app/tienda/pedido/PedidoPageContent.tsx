@@ -10,6 +10,7 @@ import { PageHeading } from '@/components/ui/typography/PageHeading';
 import { Button } from '@/components/ui/buttons/Button';
 import { formatPrice } from '@/lib/utils/formatPrice';
 import { createOrder } from '@/services/orders.service';
+import { validateProductStock } from '@/services/products.service';
 import { useCartStore, selectCartTotalCents } from '@/store/cart-store';
 
 function formatApiError(err: unknown): string {
@@ -26,6 +27,7 @@ function formatApiError(err: unknown): string {
 
 export function PedidoPageContent() {
   const items = useCartStore((s) => s.items);
+  const setKnownStock = useCartStore((s) => s.setKnownStock);
   const clearCart = useCartStore((s) => s.clearCart);
   const totalCents = selectCartTotalCents(items);
 
@@ -50,6 +52,35 @@ export function PedidoPageContent() {
 
     setLoading(true);
     try {
+      const stockResults = await validateProductStock(
+        items.map((line) => ({
+          productId: line.productId,
+          quantity: line.quantity,
+        })),
+      );
+      const unavailableLines = stockResults.filter((line) => !line.available);
+
+      for (const line of unavailableLines) {
+        setKnownStock(line.productId, line.currentStock);
+      }
+
+      if (unavailableLines.length > 0) {
+        const details = unavailableLines
+          .map((line) => {
+            const item = items.find((cartLine) => cartLine.productId === line.productId);
+            const name = line.product?.name ?? item?.name ?? 'Producto';
+            if (line.currentStock <= 0 || line.status === 'unavailable') {
+              return `${name}: agotado o no disponible`;
+            }
+            return `${name}: pediste ${line.requestedQuantity}, disponible ${line.currentStock}`;
+          })
+          .join('. ');
+        setError(
+          `Revisá el carrito antes de confirmar. ${details}. Ajustá o quitá esos productos para continuar.`,
+        );
+        return;
+      }
+
       const order = await createOrder({
         customerName: customerName.trim(),
         customerEmail: customerEmail.trim(),

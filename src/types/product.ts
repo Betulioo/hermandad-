@@ -12,3 +12,22 @@ export interface Product {
   createdAt: string;
   updatedAt: string;
 }
+
+export type StockValidationStatus =
+  | 'available'
+  | 'insufficient_stock'
+  | 'unavailable';
+
+export interface StockValidationResult {
+  productId: string;
+  requestedQuantity: number;
+  currentStock: number;
+  available: boolean;
+  status: StockValidationStatus;
+  product?: {
+    id: string;
+    name: string;
+    slug: string;
+    imageUrl: string | null;
+  };
+}
