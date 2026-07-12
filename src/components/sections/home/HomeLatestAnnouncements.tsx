@@ -5,7 +5,6 @@ import { Button } from '@/components/ui/buttons/Button';
 import { AnnouncementCard } from '@/components/ui/cards/AnnouncementCard';
 import { getAnnouncements } from '@/services/announcements.service';
 import { announcementToView } from '@/lib/mappers/announcement.mapper';
-import { homeLatestAnnouncements } from '@/content/home';
 
 const LIMIT = 3;
 
@@ -21,27 +20,29 @@ type CardItem = {
 async function fetchLatestAnnouncements(): Promise<CardItem[]> {
   try {
     const apiItems = await getAnnouncements(1, LIMIT);
-    if (apiItems.length > 0) {
-      return apiItems.map((a) => {
-        const view = announcementToView(a);
-        return {
-          id: view.id,
-          title: view.title,
-          content: view.excerpt,
-          date: view.date,
-          isImportant: view.isImportant,
-          href: `/avisos/${view.id}`,
-        };
-      });
-    }
+    return apiItems.map((a) => {
+      const view = announcementToView(a);
+      return {
+        id: view.id,
+        title: view.title,
+        content: view.excerpt,
+        date: view.date,
+        isImportant: view.isImportant,
+        href: `/avisos/${view.id}`,
+      };
+    });
   } catch {
-    // La API no está disponible: se usa el fallback estático
+    // Si la API no está disponible, no se muestran avisos placeholder
+    return [];
   }
-  return homeLatestAnnouncements;
 }
 
 export async function HomeLatestAnnouncements() {
   const items = await fetchLatestAnnouncements();
+
+  if (items.length === 0) {
+    return null;
+  }
 
   return (
     <Section className="bg-surface-alt">

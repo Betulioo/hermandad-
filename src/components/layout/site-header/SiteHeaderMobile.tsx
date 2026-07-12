@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import { useEffect, useRef, useState } from 'react';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { mainNav } from '@/lib/config/navigation';
-import { siteConfig } from '@/lib/config/site';
-import { useAuth } from '@/context/AuthContext';
+import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { mainNav } from "@/lib/config/navigation";
+import { siteConfig } from "@/lib/config/site";
+import { useAuth } from "@/context/AuthContext";
 
 const FOCUSABLE =
   'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
@@ -19,14 +19,14 @@ export function SiteHeaderMobile() {
   function handleLogout() {
     logout();
     setIsOpen(false);
-    router.push('/');
+    router.push("/");
   }
 
   // Lock body scroll
   useEffect(() => {
-    document.body.style.overflow = isOpen ? 'hidden' : '';
+    document.body.style.overflow = isOpen ? "hidden" : "";
     return () => {
-      document.body.style.overflow = '';
+      document.body.style.overflow = "";
     };
   }, [isOpen]);
 
@@ -37,18 +37,20 @@ export function SiteHeaderMobile() {
     const drawer = drawerRef.current;
     if (!drawer) return;
 
-    const elements = Array.from(drawer.querySelectorAll<HTMLElement>(FOCUSABLE));
+    const elements = Array.from(
+      drawer.querySelectorAll<HTMLElement>(FOCUSABLE),
+    );
     const first = elements[0];
     const last = elements[elements.length - 1];
 
     first?.focus();
 
     function onKeyDown(e: KeyboardEvent) {
-      if (e.key === 'Escape') {
+      if (e.key === "Escape") {
         setIsOpen(false);
         return;
       }
-      if (e.key !== 'Tab') return;
+      if (e.key !== "Tab") return;
       if (e.shiftKey) {
         if (document.activeElement === first) {
           e.preventDefault();
@@ -62,8 +64,8 @@ export function SiteHeaderMobile() {
       }
     }
 
-    document.addEventListener('keydown', onKeyDown);
-    return () => document.removeEventListener('keydown', onKeyDown);
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
   }, [isOpen]);
 
   return (
@@ -75,7 +77,14 @@ export function SiteHeaderMobile() {
         aria-expanded={isOpen}
         aria-controls="mobile-nav-drawer"
       >
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-5 w-5" aria-hidden>
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          className="h-5 w-5"
+          aria-hidden
+        >
           <line x1="3" y1="6" x2="21" y2="6" />
           <line x1="3" y1="12" x2="21" y2="12" />
           <line x1="3" y1="18" x2="21" y2="18" />
@@ -106,14 +115,24 @@ export function SiteHeaderMobile() {
                 className="flex h-8 w-8 items-center justify-center rounded-sm text-text-muted hover:text-text-primary"
                 aria-label="Cerrar menú"
               >
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-4 w-4" aria-hidden>
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  className="h-4 w-4"
+                  aria-hidden
+                >
                   <line x1="18" y1="6" x2="6" y2="18" />
                   <line x1="6" y1="6" x2="18" y2="18" />
                 </svg>
               </button>
             </div>
 
-            <nav className="flex-1 overflow-y-auto px-3 py-4" aria-label="Navegación móvil">
+            <nav
+              className="flex-1 overflow-y-auto px-3 py-4"
+              aria-label="Navegación móvil"
+            >
               <ul className="space-y-1">
                 {mainNav.map((item) => (
                   <li key={item.href}>
@@ -128,35 +147,25 @@ export function SiteHeaderMobile() {
                 ))}
               </ul>
 
-              <div className="mt-4 border-t border-border-soft pt-4 space-y-1">
-                {!user ? (
-                  <Link
-                    href="/login"
-                    className="block rounded-sm px-3 py-3 text-body-md text-text-secondary hover:bg-surface-alt transition-colors"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    Acceder
-                  </Link>
-                ) : (
-                  <>
-                    {user.role === 'ADMIN' && (
-                      <Link
-                        href="/admin/avisos"
-                        className="block rounded-sm px-3 py-3 text-body-md text-brand-blue hover:bg-surface-alt transition-colors"
-                        onClick={() => setIsOpen(false)}
-                      >
-                        Panel admin
-                      </Link>
-                    )}
-                    <button
-                      onClick={handleLogout}
-                      className="block w-full rounded-sm px-3 py-3 text-left text-body-md text-text-muted hover:bg-surface-alt transition-colors"
+              {user && (
+                <div className="mt-4 border-t border-border-soft pt-4 space-y-1">
+                  {user.role === "ADMIN" && (
+                    <Link
+                      href="/admin/avisos"
+                      className="block rounded-sm px-3 py-3 text-body-md text-brand-blue hover:bg-surface-alt transition-colors"
+                      onClick={() => setIsOpen(false)}
                     >
-                      Salir
-                    </button>
-                  </>
-                )}
-              </div>
+                      Panel admin
+                    </Link>
+                  )}
+                  <button
+                    onClick={handleLogout}
+                    className="block w-full rounded-sm px-3 py-3 text-left text-body-md text-text-muted hover:bg-surface-alt transition-colors"
+                  >
+                    Salir
+                  </button>
+                </div>
+              )}
             </nav>
           </div>
         </>

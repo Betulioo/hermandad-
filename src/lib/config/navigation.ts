@@ -1,27 +1,24 @@
 export const mainNav = [
-  { label: 'Parroquia', href: '/parroquia' },
-  { label: 'Hermandad', href: '/hermandad' },
-  { label: 'Eventos', href: '/eventos' },
-  { label: 'Avisos', href: '/avisos' },
-  { label: 'Tienda', href: '/tienda' },
+  { label: "Hermandad", href: "/hermandad" },
+  { label: "Eventos", href: "/eventos" },
+  { label: "Avisos", href: "/avisos" },
+  { label: "Tienda", href: "/tienda" },
 ];
 
 export const footerNav = [
   {
-    label: 'Información',
+    label: "Información",
     links: [
-      { label: 'Parroquia', href: '/parroquia' },
-      { label: 'Hermandad', href: '/hermandad' },
-      { label: 'Eventos', href: '/eventos' },
-      { label: 'Avisos', href: '/avisos' },
+      { label: "Hermandad", href: "/hermandad" },
+      { label: "Eventos", href: "/eventos" },
+      { label: "Avisos", href: "/avisos" },
     ],
   },
   {
-    label: 'Comunidad',
+    label: "Comunidad",
     links: [
-      { label: 'Tienda', href: '/tienda' },
-      { label: 'Hazte hermano', href: '/hermandad#unirse' },
-      { label: 'Voluntariado', href: '/hermandad#voluntariado' },
+      { label: "Tienda", href: "/tienda" },
+      { label: "Hazte hermano", href: "/hermandad#unirse" },
     ],
   },
 ];

@@ -7,7 +7,6 @@ import { PageHeading } from '@/components/ui/typography/PageHeading';
 import { SectionHeading } from '@/components/ui/typography/SectionHeading';
 import ScheduleItem from '@/components/schedules/ScheduleItem';
 import type { PrayerSchedule } from '@/types/prayer-schedule';
-import { mockHorarios } from '@/content/horarios';
 
 export const dynamic = 'force-dynamic';
 
@@ -39,13 +38,12 @@ function sortGroupNames(names: string[]): string[] {
 }
 
 export default async function HorariosPage() {
-  let schedules: PrayerSchedule[];
+  let schedules: PrayerSchedule[] = [];
 
   try {
-    const apiSchedules = await getPrayerSchedules(1, 50);
-    schedules = apiSchedules.length > 0 ? apiSchedules : mockHorarios;
+    schedules = await getPrayerSchedules(1, 50);
   } catch {
-    schedules = mockHorarios;
+    schedules = [];
   }
 
   const grouped = groupByType(schedules);
@@ -62,7 +60,11 @@ export default async function HorariosPage() {
               subtitle="Misas, sacramentos y actividades de la Parroquia"
             />
 
-            {isSingleGroup ? (
+            {schedules.length === 0 ? (
+              <p className="text-body-md text-text-secondary">
+                No hay horarios publicados en este momento.
+              </p>
+            ) : isSingleGroup ? (
               <ul className="divide-y divide-border-soft">
                 {schedules.map((s) => (
                   <ScheduleItem key={s.id} schedule={s} />

@@ -1,16 +1,16 @@
-import type { Metadata } from 'next';
-import Link from 'next/link';
-import { notFound } from 'next/navigation';
-import { PageShell } from '@/components/layout/page-shell/PageShell';
-import { Section } from '@/components/layout/section/Section';
-import { Container } from '@/components/layout/container/Container';
-import { PageHeading } from '@/components/ui/typography/PageHeading';
-import { Badge } from '@/components/ui/data-display/Badge';
-import { Button } from '@/components/ui/buttons/Button';
-import { ProductAddToCart } from '@/components/tienda/ProductAddToCart';
-import { getProductBySlug } from '@/services/products.service';
-import { formatPrice } from '@/lib/utils/formatPrice';
-import { productCategoryLabels, type ProductCategory } from '@/content/tienda';
+import type { Metadata } from "next";
+import Link from "next/link";
+import { notFound } from "next/navigation";
+import { PageShell } from "@/components/layout/page-shell/PageShell";
+import { Section } from "@/components/layout/section/Section";
+import { Container } from "@/components/layout/container/Container";
+import { PageHeading } from "@/components/ui/typography/PageHeading";
+import { Badge } from "@/components/ui/data-display/Badge";
+import { Button } from "@/components/ui/buttons/Button";
+import { ProductAddToCart } from "@/components/tienda/ProductAddToCart";
+import { getProductBySlug } from "@/services/products.service";
+import { formatPrice } from "@/lib/utils/formatPrice";
+import { productCategoryLabels, type ProductCategory } from "@/content/tienda";
 
 export async function generateMetadata({
   params,
@@ -24,7 +24,7 @@ export async function generateMetadata({
       title: `${product.name} — Tienda — Santa María la Antigua`,
     };
   } catch {
-    return { title: 'Producto — Tienda — Santa María la Antigua' };
+    return { title: "Producto — Tienda — Santa María la Antigua" };
   }
 }
 
@@ -77,7 +77,9 @@ export default async function ProductoDetailPage({
             <div className="grid grid-cols-1 gap-10 md:grid-cols-2 md:items-start">
               {/* Imagen placeholder */}
               <div className="flex aspect-square items-center justify-center overflow-hidden rounded-lg bg-surface-alt">
-                <span className="text-body-sm text-text-muted">Imagen próximamente</span>
+                <span className="text-body-sm text-text-muted">
+                  Imagen próximamente
+                </span>
               </div>
 
               {/* Descripción y disponibilidad */}
@@ -100,7 +102,8 @@ export default async function ProductoDetailPage({
                     Disponible en secretaría parroquial
                   </p>
                   <p className="text-body-sm text-text-secondary">
-                    Lunes a viernes: 10:00 – 13:00 h · Plaza de Santa María, s/n
+                    Lunes a viernes: 10:00 – 13:00 h · C/ Virgen de la Antigua,
+                    nº 9
                   </p>
                   <p className="text-caption text-text-muted">
                     La venta online estará disponible próximamente.

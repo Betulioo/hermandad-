@@ -10,6 +10,8 @@ export interface ContactInfo {
   massScheduleSummary: string;
   /** No existe en el backend; siempre procede del contenido estático. */
   mapsUrl: string;
+  /** URL para el iframe embebido de Google Maps; siempre procede del contenido estático. */
+  mapsEmbedSrc: string;
 }
 
 const FALLBACK: ContactInfo = {
@@ -17,8 +19,9 @@ const FALLBACK: ContactInfo = {
   phone: homeLocationContact.phone,
   email: homeLocationContact.email,
   officeHours: homeLocationContact.officeHours,
-  massScheduleSummary: homeLocationContact.massScheduleSummary,
+  massScheduleSummary: '',
   mapsUrl: homeLocationContact.mapsUrl,
+  mapsEmbedSrc: homeLocationContact.mapsEmbedSrc,
 };
 
 /**
@@ -33,7 +36,8 @@ export function parishInfoToContact(p: ParishInfo | null): ContactInfo {
     phone: p.contactPhone ?? FALLBACK.phone,
     email: p.contactEmail ?? FALLBACK.email,
     officeHours: p.officeHours ?? FALLBACK.officeHours,
-    massScheduleSummary: p.massSchedulesSummary ?? FALLBACK.massScheduleSummary,
+    massScheduleSummary: p.massSchedulesSummary ?? '',
     mapsUrl: FALLBACK.mapsUrl,
+    mapsEmbedSrc: FALLBACK.mapsEmbedSrc,
   };
 }
