@@ -40,8 +40,12 @@ export async function HomeLocationContact() {
 
             <div className="space-y-2 rounded-md border border-border-soft bg-surface-card p-4">
               <p className="text-caption font-semibold uppercase tracking-wider text-text-muted">Horarios de atención</p>
-              <MetaRow icon={<ClockIcon />}>{contact.officeHours}</MetaRow>
-              <MetaRow icon={<ClockIcon />}>{contact.massScheduleSummary}</MetaRow>
+              {contact.officeHours && (
+                <MetaRow icon={<ClockIcon />}>{contact.officeHours}</MetaRow>
+              )}
+              {contact.massScheduleSummary && (
+                <MetaRow icon={<ClockIcon />}>{contact.massScheduleSummary}</MetaRow>
+              )}
             </div>
 
             <Button href={`mailto:${contact.email}`} variant="primary">

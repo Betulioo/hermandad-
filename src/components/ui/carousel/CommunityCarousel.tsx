@@ -1,70 +1,98 @@
-'use client';
+"use client";
 
-import { useEffect, useRef, useState } from 'react';
-import Image from 'next/image';
-import { cn } from '@/lib/utils/cn';
-import type { CommunitySlide } from '@/content/comunidad';
+import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
+import { cn } from "@/lib/utils/cn";
+import type { CommunitySlide } from "@/content/comunidad";
 
 interface CommunityCarouselProps {
   slides: CommunitySlide[];
   className?: string;
 }
 
-function ChevronLeftIcon({ className = 'h-5 w-5' }: { className?: string }) {
+function ChevronLeftIcon({ className = "h-5 w-5" }: { className?: string }) {
   return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className} aria-hidden>
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      className={className}
+      aria-hidden
+    >
       <polyline points="15 18 9 12 15 6" />
     </svg>
   );
 }
 
-function ChevronRightIcon({ className = 'h-5 w-5' }: { className?: string }) {
+function ChevronRightIcon({ className = "h-5 w-5" }: { className?: string }) {
   return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className} aria-hidden>
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      className={className}
+      aria-hidden
+    >
       <polyline points="9 18 15 12 9 6" />
     </svg>
   );
 }
 
-function CloseIcon({ className = 'h-5 w-5' }: { className?: string }) {
+function CloseIcon({ className = "h-5 w-5" }: { className?: string }) {
   return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className} aria-hidden>
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      className={className}
+      aria-hidden
+    >
       <line x1="18" y1="6" x2="6" y2="18" />
       <line x1="6" y1="6" x2="18" y2="18" />
     </svg>
   );
 }
 
-export function CommunityCarousel({ slides, className }: CommunityCarouselProps) {
+export function CommunityCarousel({
+  slides,
+  className,
+}: CommunityCarouselProps) {
   const trackRef = useRef<HTMLUListElement>(null);
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
   const isOpen = activeIndex !== null;
 
   const showPrev = () =>
-    setActiveIndex((i) => (i === null ? i : (i - 1 + slides.length) % slides.length));
+    setActiveIndex((i) =>
+      i === null ? i : (i - 1 + slides.length) % slides.length,
+    );
   const showNext = () =>
     setActiveIndex((i) => (i === null ? i : (i + 1) % slides.length));
 
   useEffect(() => {
     if (!isOpen) return;
 
-    document.body.style.overflow = 'hidden';
+    document.body.style.overflow = "hidden";
 
     function onKeyDown(e: KeyboardEvent) {
-      if (e.key === 'Escape') {
+      if (e.key === "Escape") {
         setActiveIndex(null);
-      } else if (e.key === 'ArrowLeft') {
-        setActiveIndex((i) => (i === null ? i : (i - 1 + slides.length) % slides.length));
-      } else if (e.key === 'ArrowRight') {
+      } else if (e.key === "ArrowLeft") {
+        setActiveIndex((i) =>
+          i === null ? i : (i - 1 + slides.length) % slides.length,
+        );
+      } else if (e.key === "ArrowRight") {
         setActiveIndex((i) => (i === null ? i : (i + 1) % slides.length));
       }
     }
 
-    document.addEventListener('keydown', onKeyDown);
+    document.addEventListener("keydown", onKeyDown);
     return () => {
-      document.body.style.overflow = '';
-      document.removeEventListener('keydown', onKeyDown);
+      document.body.style.overflow = "";
+      document.removeEventListener("keydown", onKeyDown);
     };
   }, [isOpen, slides.length]);
 
@@ -76,13 +104,13 @@ export function CommunityCarousel({ slides, className }: CommunityCarouselProps)
     const track = trackRef.current;
     if (!track) return;
     const amount = track.clientWidth * 0.8 * direction;
-    track.scrollBy({ left: amount, behavior: 'smooth' });
+    track.scrollBy({ left: amount, behavior: "smooth" });
   };
 
   const activeSlide = activeIndex !== null ? slides[activeIndex] : null;
 
   return (
-    <div className={cn('relative', className)}>
+    <div className={cn("relative", className)}>
       <ul
         ref={trackRef}
         className="flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
@@ -148,7 +176,7 @@ export function CommunityCarousel({ slides, className }: CommunityCarouselProps)
             type="button"
             onClick={() => setActiveIndex(null)}
             aria-label="Cerrar imagen"
-            className="absolute right-4 top-4 flex h-10 w-10 items-center justify-center rounded-full bg-surface-card/90 text-text-primary shadow-card transition-colors hover:bg-surface-card focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-gold"
+            className="absolute right-3 top-3 z-20 flex h-10 w-10 items-center justify-center rounded-full bg-surface-card/90 text-text-primary shadow-card transition-colors hover:bg-surface-card focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-gold"
           >
             <CloseIcon />
           </button>
@@ -162,7 +190,7 @@ export function CommunityCarousel({ slides, className }: CommunityCarouselProps)
                   showPrev();
                 }}
                 aria-label="Imagen anterior"
-                className="absolute left-4 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-surface-card/90 text-text-primary shadow-card transition-colors hover:bg-surface-card focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-gold"
+                className="absolute left-2 top-1/2 z-20 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-surface-card/90 text-text-primary shadow-card transition-colors hover:bg-surface-card focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-gold sm:left-4"
               >
                 <ChevronLeftIcon />
               </button>
@@ -173,7 +201,7 @@ export function CommunityCarousel({ slides, className }: CommunityCarouselProps)
                   showNext();
                 }}
                 aria-label="Imagen siguiente"
-                className="absolute right-4 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-surface-card/90 text-text-primary shadow-card transition-colors hover:bg-surface-card focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-gold"
+                className="absolute right-2 top-1/2 z-20 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-surface-card/90 text-text-primary shadow-card transition-colors hover:bg-surface-card focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-gold sm:right-4"
               >
                 <ChevronRightIcon />
               </button>

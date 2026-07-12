@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/buttons/Button';
 import { ClockIcon, MapPinIcon, PhoneIcon } from '@/components/ui/icons';
 import { parishInfoToContact } from '@/lib/mappers/parish-info.mapper';
 import { getParishInfo } from '@/services/parish-info.service';
+import { getPrayerSchedules } from '@/services/prayer-schedules.service';
 
 export async function HomeEssentialInfo() {
   let contact;
@@ -14,14 +15,30 @@ export async function HomeEssentialInfo() {
     contact = parishInfoToContact(null);
   }
 
+  let hasPublishedSchedules = false;
+  try {
+    const schedules = await getPrayerSchedules(1, 1);
+    hasPublishedSchedules = schedules.length > 0;
+  } catch {
+    hasPublishedSchedules = false;
+  }
+
+  const horariosText = contact.massScheduleSummary.trim();
+
   const items = [
-    {
-      title: 'Misas y horarios',
-      text: contact.massScheduleSummary,
-      href: '/horarios',
-      cta: 'Ver horarios',
-      icon: <ClockIcon className="h-6 w-6" />,
-    },
+    ...(horariosText || hasPublishedSchedules
+      ? [
+          {
+            title: 'Misas y horarios',
+            text:
+              horariosText ||
+              'Consulta los horarios de misas y actividades publicados.',
+            href: '/horarios',
+            cta: 'Ver horarios',
+            icon: <ClockIcon className="h-6 w-6" />,
+          },
+        ]
+      : []),
     {
       title: 'Dónde estamos',
       text: contact.address,
