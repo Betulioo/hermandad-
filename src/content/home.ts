@@ -1,9 +1,9 @@
 export const homeHero = {
   title: 'Parroquia y Hermandad de Santa María la Antigua',
   subtitle:
-    'Una comunidad viva de fe, tradición y servicio en el corazón de la ciudad.',
+    'Horarios, avisos y formas de participar en una comunidad viva de fe, tradición y servicio.',
   ctaPrimary: { label: 'Ver horarios', href: '/horarios' },
-  ctaSecondary: { label: 'Cómo unirse', href: '/hermandad' },
+  ctaSecondary: { label: 'Participar', href: '/hermandad#unirse' },
 };
 
 export const homeQuickLinks = [
@@ -33,8 +33,8 @@ export const homeQuickLinks = [
   },
   {
     id: 'contacto',
-    label: 'Contacto',
-    microcopy: 'Dónde estamos',
+    label: 'Cómo llegar',
+    microcopy: 'Ubicación y teléfono',
     href: '#contacto',
   },
 ];
@@ -66,33 +66,6 @@ export const homeUpcomingEvents = [
     location: 'Casa de ejercicios espirituales',
     description:
       'Jornada de oración y reflexión abierta a todos los fieles. Inscripción previa necesaria.',
-  },
-];
-
-export const homeLatestAnnouncements = [
-  {
-    id: '1',
-    title: 'Campaña de recogida de alimentos',
-    content:
-      'Hasta el 30 de junio, la Parroquia recoge alimentos no perecederos para las familias más vulnerables del barrio. Depositadlos en las cajas habilitadas en la entrada.',
-    date: '1 de junio de 2025',
-    isImportant: true,
-  },
-  {
-    id: '2',
-    title: 'Cambio de horario de verano',
-    content:
-      'A partir del 15 de junio, la misa vespertina del domingo se adelanta a las 20:00 h. El resto de horarios se mantienen sin cambios hasta septiembre.',
-    date: '28 de mayo de 2025',
-    isImportant: false,
-  },
-  {
-    id: '3',
-    title: 'Nuevo grupo de voluntariado juvenil',
-    content:
-      'Se constituye un nuevo grupo de voluntariado para jóvenes de 18 a 30 años. Primera reunión el próximo jueves a las 19:30 h en la sala parroquial.',
-    date: '20 de mayo de 2025',
-    isImportant: false,
   },
 ];
 
@@ -140,20 +113,6 @@ export const homeParticipationItems = [
     description:
       'Únete a nuestra fraternidad y forma parte de una comunidad que ora, celebra y sirve juntos desde hace siglos.',
     cta: { label: 'Más información', href: '/hermandad#unirse' },
-  },
-  {
-    id: 'joven',
-    title: 'Grupo joven',
-    description:
-      'Espacio de encuentro, fe y servicio para jóvenes de 18 a 35 años. Actividades, convivencias y formación a lo largo del año.',
-    cta: { label: 'Conocer el grupo', href: '/hermandad#joven' },
-  },
-  {
-    id: 'voluntariado',
-    title: 'Voluntariado',
-    description:
-      'Participa en nuestras iniciativas sociales: banco de alimentos, visitas a enfermos y apoyo a familias en dificultad.',
-    cta: { label: 'Apuntarte', href: '/hermandad#voluntariado' },
   },
 ];
 

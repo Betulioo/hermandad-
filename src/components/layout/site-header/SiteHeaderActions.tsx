@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { useAuth } from '@/context/AuthContext';
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/context/AuthContext";
 
 export function SiteHeaderActions() {
   const { user, loading, logout } = useAuth();
@@ -11,24 +11,17 @@ export function SiteHeaderActions() {
   if (loading) return <div className="h-8 w-24" />;
 
   if (!user) {
-    return (
-      <Link
-        href="/login"
-        className="text-body-sm font-medium text-text-secondary hover:text-brand-navy transition-colors"
-      >
-        Acceder
-      </Link>
-    );
+    return null;
   }
 
   function handleLogout() {
     logout();
-    router.push('/');
+    router.push("/");
   }
 
   return (
     <div className="flex items-center gap-4">
-      {user.role === 'ADMIN' && (
+      {user.role === "ADMIN" && (
         <Link
           href="/admin/avisos"
           className="text-body-sm font-medium text-brand-blue hover:text-brand-navy transition-colors"
