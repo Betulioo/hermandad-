@@ -145,7 +145,7 @@ export function CommunityCarousel({
         ))}
       </ul>
 
-      <div className="mt-4 hidden justify-end gap-2 sm:flex">
+      <div className="mt-4 hidden justify-center gap-2 sm:flex">
         <button
           type="button"
           onClick={() => scrollByAmount(-1)}

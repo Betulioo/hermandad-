@@ -56,11 +56,14 @@ export async function HomeEssentialInfo() {
   ];
 
   return (
-    <Section spacing="compact" className="border-b border-border-soft bg-surface-base">
+    <Section
+      spacing="none"
+      className="border-b border-border-soft bg-surface-base pb-8 pt-2 md:pb-12 md:pt-4"
+    >
       <Container>
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="flex flex-wrap items-stretch justify-center gap-4">
           {items.map((item) => (
-            <article key={item.title} className="flex h-full flex-col gap-4 rounded-md border border-border-soft bg-surface-card p-5 shadow-card">
+            <article key={item.title} className="flex w-full flex-col gap-4 rounded-md border border-border-soft bg-surface-card p-5 shadow-card sm:w-80">
               <div className="flex items-start gap-3">
                 <span className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-sm bg-brand-navy/8 text-brand-navy" aria-hidden>
                   {item.icon}
